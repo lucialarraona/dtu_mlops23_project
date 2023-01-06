@@ -1,5 +1,4 @@
 # MLOps Final Project - TITLE - Jan 2023
-____
 Repo for the final project of DTU MLOps January course
 
 
