@@ -7,7 +7,7 @@
 
 ## 💡 Project Goal
 
-The aim of this project is to perform multilabel classification on different sentences to identify the emotion. 
+The aim of this project is to perform multiclass classification on different sentences to identify the emotion. 
 
 ## ⚙️ Model and Framework intented
 
