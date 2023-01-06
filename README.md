@@ -19,8 +19,8 @@ Our plan is to utilize the strength of the Transformers framework, which provide
 ## 📊 Data
 
 - We are using the Kaggle dataset [Emotions dataset for NLP] (https://www.kaggle.com/datasets/praveengovi/emotions-dataset-for-nlp). 
-- The data is already divided into Train, Vaidation and Test. 
-- Each sample has the following information: a sentence (text), and an emotion (label) which can be one out of the following 6 categories: sadness, anger, fear, joy, love, and surprise. 
+- The data is already divided into Train, Validation and Test. 
+- Each sample has the following information: a *sentence* (text), and an *emotion* (label) which can be one out of the following 6 categories: sadness, anger, fear, joy, love, and surprise. 
 
 
 We chose this dataset because of its simplicity, and for the given timeframe the extension of the problem and its implementation is feasible.
