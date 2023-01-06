@@ -1,5 +1,4 @@
 # MLOps Final Project - Emotion Analysis of Text 🤔🤬😄
-Repo for the final project of DTU MLOps January course - Jan 2023
 
 - Lucía Larraona (s220492)
 - Zuzanna Rowinska (s220351)
