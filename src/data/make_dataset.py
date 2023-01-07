@@ -4,7 +4,8 @@ import logging
 from pathlib import Path
 from dotenv import find_dotenv, load_dotenv
 import pandas as pd
-
+import sys
+import os
 
 import torch
 from transformers.file_utils import is_tf_available, is_torch_available, is_torch_tpu_available
@@ -13,10 +14,12 @@ from transformers import AutoTokenizer
 from transformers import AutoModelForSequenceClassification
 from sklearn.preprocessing import LabelEncoder
 
+sys.path.insert(1, os.path.join(sys.path[0], ".."))
 
 @click.command()
 @click.argument('input_filepath', type=click.Path(exists=True))
 @click.argument('output_filepath', type=click.Path())
+
 def main(input_filepath, output_filepath):
     """ Runs data processing scripts to turn raw data from (../raw) into
         cleaned data ready to be analyzed (saved in ../processed).
@@ -52,10 +55,6 @@ def main(input_filepath, output_filepath):
 
     X_test = df_train['text']
     Y_test =  df_train['emotion_cat']
-
-
-  
-
 
         # Define model-name (based on hugging-face library)
     model_name = "bert-base-uncased"
@@ -105,7 +104,7 @@ def main(input_filepath, output_filepath):
     torch.save(test_dataset,output_filepath + "/test.pth" )
     
 
-    # Create a new dataset with the tokenized input(text) and the labels
+# Create a new dataset with the tokenized input(text) and the labels
 class TextDataset(torch.utils.data.Dataset):
     def __init__(self, encodings, labels):
         self.encodings = encodings
@@ -118,6 +117,8 @@ class TextDataset(torch.utils.data.Dataset):
 
     def __len__(self):
         return len(self.labels)
+
+
 
 
 if __name__ == '__main__':
