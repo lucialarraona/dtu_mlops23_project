@@ -5,9 +5,7 @@
 import torch
 #from transformers.file_utils import is_tf_available, is_torch_available, is_torch_tpu_available
 from transformers import BertTokenizerFast, BertForSequenceClassification
-from transformers import DistilBertTokenizer, DistilBertForSequenceClassification
-from transformers import AutoTokenizer
-from transformers import AutoModelForSequenceClassification, TrainingArguments, Trainer
+from transformers import  TrainingArguments, Trainer
 from transformers import Trainer, TrainingArguments
 import numpy as np
 import random
@@ -34,6 +32,7 @@ tokenizer = BertTokenizerFast.from_pretrained(model_name, do_lower_case=True)
 
 # -------- Training with Trainer function from HuggingFace
 # Load the model and pass to CUDA
+
 model = BertForSequenceClassification.from_pretrained(model_name,# Use the 12-layer BERT model, with an uncased vocab.
                                                       num_labels = 6, # The number of output labels--2 for binary classification.  si pones num_labels=1 hace MSE LOSS
                                                       output_attentions = False, # Whether the model returns attentions weights.
@@ -100,6 +99,7 @@ sweep_id = wandb.sweep(sweep_config,
 
 # define training function with the config file parameters as inputs 
 
+
 def train(config=None): 
   with wandb.init(config=config):
     # set sweep configuration
@@ -123,6 +123,9 @@ def train(config=None):
         remove_unused_columns=False,
 
     )
+
+    train_dataset = torch.load("../data/processed/test.pth")
+    valid_dataset = torch.load("../data/processed/test.pth")
 
     # define training loop
     trainer = Trainer(
