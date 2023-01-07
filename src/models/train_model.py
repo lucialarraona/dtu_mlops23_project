@@ -41,6 +41,14 @@ wandb.init(project='dtu_mlops',
 
 def main():
 
+    """
+    Returns the loss and accuracy after training the project's model and testing in on test.txt raw data.
+    Saves a figure of the confusion matrix for the classification task
+            Parameters:
+                None 
+    """
+
+
     # Access data from processed folder
     train_dataset = torch.load("data/processed/train.pth")
     valid_dataset = torch.load("data/processed/valid.pth")
