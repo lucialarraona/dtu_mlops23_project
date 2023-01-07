@@ -13,7 +13,7 @@ import sys
 import os
 sys.path.insert(1, os.path.join(sys.path[0], ".."))
 from data.make_dataset import TextDataset # import our dataset class 
-
+#from models.config import *
 # 
 import wandb
 import os
@@ -31,12 +31,20 @@ from sklearn.metrics import classification_report
 
 log = logging.getLogger(__name__)
 
+
+config_dictionary = dict(
+    yaml= "models/config/config-defaults.yml",
+    #params=hyperparameter_defaults, # in case we want to add more
+    )
+
+
 # Initiate wandb logging
 wandb.init(project='dtu_mlops', 
            entity='lucialarraona',
            name="bert-test",
            #tags=["baseline", "low-lr", "1epoch", "test"],
-           group='bert')
+           group='bert',
+           config = config_dictionary)
 
 
 def main():
@@ -99,7 +107,7 @@ def main():
         save_strategy = 'epoch',
         per_device_train_batch_size=64,   # batch size per device during training
         per_device_eval_batch_size=64,   # batch size for evaluation
-        learning_rate = 0.0005,
+        learning_rate = config_dictionary['yaml']['lr'],
         warmup_steps=500,                # number of warmup steps for learning rate scheduler
         weight_decay=0.01,               # strength of weight decay
         logging_dir='models/logs',            # directory for storing logs
