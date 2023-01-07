@@ -1,5 +1,4 @@
 # MLOps Final Project - Emotion Analysis of Text 🤔🤬😄
-==============================
 
 - Lucía Larraona (s220492)
 - Zuzanna Rowinska (s220351)

@@ -12,18 +12,26 @@ from sklearn.metrics import accuracy_score
 import sys
 import os
 sys.path.insert(1, os.path.join(sys.path[0], ".."))
+from data.make_dataset import TextDataset # import our dataset class 
 
-from data.make_dataset import TextDataset
-
-# Hugging Face has its own tokenizer for the transformer: Load the tokenizer
-
+# 
 import wandb
 import os
 import logging 
 
+from sklearn.metrics import precision_recall_fscore_support
+from sklearn.metrics import accuracy_score
+
+from sklearn.metrics import confusion_matrix
+import seaborn as sns
+import pandas as pd
+import matplotlib.pyplot as plt
+from sklearn.metrics import classification_report
+
 
 log = logging.getLogger(__name__)
 
+# Initiate wandb logging
 wandb.init(project='dtu_mlops', 
            entity='lucialarraona',
            name="bert-test",
@@ -36,6 +44,7 @@ def main():
     # Access data from processed folder
     train_dataset = torch.load("data/processed/train.pth")
     valid_dataset = torch.load("data/processed/valid.pth")
+    test_dataset = torch.load('data/processed/test.pth')
 
 
     # ---------------- Model Definition / Tokenization / Encoding / Metrics definition ---------------------
@@ -95,7 +104,6 @@ def main():
         report_to='wandb'                # report to WANDB to keep track of the metrics :) 
     )
 
-
     trainer = Trainer(
         model=model,                         # the instantiated Transformers model to be trained
         args=training_args,                  # training arguments, defined above
@@ -113,6 +121,33 @@ def main():
     model_path = '/models/models_trained'
     model.save_pretrained(model_path)
     tokenizer.save_pretrained(model_path)
+
+
+
+
+    # ------------------------------ Evaluation of the model----------------
+
+    # WE DONT CALL TRAINER.TRAIN() we call TRAINER.EVALUATE()
+    trainer.evaluate()
+
+    # Obtain predictions on test set (trainer.predict())
+    predictions,labels, metrics = trainer.predict(test_dataset)  
+    # Conf matrix definition
+    matrix = confusion_matrix(labels, predictions.argmax(axis=1))
+
+    # Confusion matrix with counts (plot)
+    plt.figure(figsize = (10,7))
+    sns.set(font_scale=2.0)
+    sns.heatmap(matrix, annot=True, cmap='Reds',fmt='g')
+    plt.xlabel("Predicted class")
+    plt.ylabel("True class") 
+    plt.savefig('/reports/figures/cfm_train.png')
+
+    # Classification report
+    clas_report = classification_report(labels, predictions.argmax(axis=1))
+    print(clas_report)
+    print(metrics)
+    None
 
 
 
