@@ -29,7 +29,7 @@ import matplotlib.pyplot as plt
 from sklearn.metrics import classification_report
 from sklearn.preprocessing import LabelEncoder
 
-from dotenv import find_dotenv, load_dotenv
+
 
 log = logging.getLogger(__name__)
 torch.cuda.empty_cache() # for better performance

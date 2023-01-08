@@ -1,0 +1,4 @@
+train:
+  lr: 6.0e-05
+  batch_size: 64
+  epochs: 5

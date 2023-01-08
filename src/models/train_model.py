@@ -12,12 +12,14 @@ from sklearn.metrics import accuracy_score
 import sys
 import os
 sys.path.insert(1, os.path.join(sys.path[0], ".."))
-from data.make_dataset import TextDataset # import our dataset class 
-#from models.config import *
-# 
+print(sys.path.insert(1, os.path.join(sys.path[0], "..")))
+
+from data.make_dataset import TextDataset  #import our dataset class 
+
 import wandb
 import os
 import logging 
+import hydra
 
 from sklearn.metrics import precision_recall_fscore_support
 from sklearn.metrics import accuracy_score
@@ -27,27 +29,12 @@ import seaborn as sns
 import pandas as pd
 import matplotlib.pyplot as plt
 from sklearn.metrics import classification_report
-
+from omegaconf import DictConfig
 
 log = logging.getLogger(__name__)
+@hydra.main(config_path="../config", config_name="default_config.yaml") # specify path of config file to later pass it to wandb 
 
-
-config_dictionary = dict(
-    yaml= "models/config/config-defaults.yml",
-    #params=hyperparameter_defaults, # in case we want to add more
-    )
-
-
-# Initiate wandb logging
-wandb.init(project='dtu_mlops', 
-           entity='lucialarraona',
-           name="bert-test",
-           #tags=["baseline", "low-lr", "1epoch", "test"],
-           group='bert',
-           config = config_dictionary)
-
-
-def main():
+def main(config: DictConfig):
 
     """
     Returns the loss and accuracy after training the project's model and testing in on test.txt raw data.
@@ -56,11 +43,21 @@ def main():
                 None 
     """
 
+    # Initiate wandb logging
+    wandb.init(project='dtu_mlops', 
+            entity='lucialarraona',
+            name="bert-test",
+            tags=["baseline", "low-lr", "1epoch", "test"],
+            group='bert',
+            config = config, #specify config file to read the hyperparameters from 
+            )
+            
 
     # Access data from processed folder
-    train_dataset = torch.load("data/processed/train.pth")
-    valid_dataset = torch.load("data/processed/valid.pth")
-    test_dataset = torch.load('data/processed/test.pth')
+    # For some reason my relative paths don't work???? - Lu 
+    train_dataset = torch.load('/Users/lucialarraona/dtu_mlops23_project/data/processed/train.pth') 
+    valid_dataset = torch.load('/Users/lucialarraona/dtu_mlops23_project/data/processed/valid.pth')
+    test_dataset = torch.load('/Users/lucialarraona/dtu_mlops23_project/data/processed/test.pth')
 
 
     # ---------------- Model Definition / Tokenization / Encoding / Metrics definition ---------------------
@@ -100,31 +97,31 @@ def main():
 
 
     training_args = TrainingArguments(
-        output_dir='models/',          # output directory /models directory
-        overwrite_output_dir = True,    # will overwrite the last trained model (so it doesnt build up)
-        num_train_epochs=3,              # total number of training epochs
+        output_dir='models/',                               # output directory /models directory
+        overwrite_output_dir = True,                        # will overwrite the last trained model (so it doesnt build up)
+        num_train_epochs= config.train.epochs,              # total number of training epochs
         evaluation_strategy='epoch',
         save_strategy = 'epoch',
-        per_device_train_batch_size=64,   # batch size per device during training
-        per_device_eval_batch_size=64,   # batch size for evaluation
-        learning_rate = config_dictionary['yaml']['lr'],
-        warmup_steps=500,                # number of warmup steps for learning rate scheduler
-        weight_decay=0.01,               # strength of weight decay
-        logging_dir='models/logs',            # directory for storing logs
-        load_best_model_at_end=True,     # load the best model when finished training (default metric is loss)
+        per_device_train_batch_size=config.train.train_batch_size, # batch size per device during training
+        per_device_eval_batch_size=config.train.test_batch_size,   # batch size for evaluation
+        learning_rate = config.train.lr,
+        warmup_steps=500,                                     # number of warmup steps for learning rate scheduler
+        weight_decay=config.train.weight_decay,               # strength of weight decay
+        logging_dir='models/logs',                            # directory for storing logs
+        load_best_model_at_end=True,                          # load the best model when finished training (default metric is loss)
         metric_for_best_model = 'accuracy',
                                             
-                                            # but you can specify `metric_for_best_model` argument to change to accuracy or other metric
-        logging_steps=400,               # log & save weights each logging_steps
+                                                              # but you can specify `metric_for_best_model` argument to change to accuracy or other metric
+        logging_steps=400,                                    # log & save weights each logging_steps
         save_steps=400,
-        report_to='wandb'                # report to WANDB to keep track of the metrics :) 
+        report_to='wandb'                                     # report to WANDB to keep track of the metrics :) 
     )
 
     trainer = Trainer(
         model=model,                         # the instantiated Transformers model to be trained
         args=training_args,                  # training arguments, defined above
         train_dataset=train_dataset,         # training dataset
-        eval_dataset=valid_dataset,           # evaluation dataset
+        eval_dataset=valid_dataset,          # evaluation dataset
         compute_metrics=compute_metrics,     # the callback that computes metrics of interest
     )
 
@@ -157,7 +154,7 @@ def main():
     sns.heatmap(matrix, annot=True, cmap='Reds',fmt='g')
     plt.xlabel("Predicted class")
     plt.ylabel("True class") 
-    plt.savefig('/reports/figures/cfm_train.png')
+    plt.savefig('reports/figures/cfm_train.png')
 
     # Classification report
     clas_report = classification_report(labels, predictions.argmax(axis=1))
