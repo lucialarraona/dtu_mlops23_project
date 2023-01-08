@@ -9,6 +9,8 @@ import random
 from sklearn.metrics import precision_recall_fscore_support
 from sklearn.metrics import accuracy_score
 
+from pathlib import Path
+from dotenv import find_dotenv, load_dotenv
 import sys
 import os
 sys.path.insert(1, os.path.join(sys.path[0], ".."))
@@ -165,5 +167,9 @@ def main(config: DictConfig):
 
 
 if __name__ == "__main__":
+
+    project_dir = Path(__file__).resolve().parents[2]
+    load_dotenv(find_dotenv())
+
     main()
 

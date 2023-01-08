@@ -26,7 +26,6 @@ Our plan is to utilize the strength of the Transformers framework, which provide
 We chose this dataset because of its simplicity, and for the given timeframe the extension of the problem and its implementation is feasible.
 
 
-
 Project Organization
 ------------
 

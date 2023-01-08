@@ -17,3 +17,5 @@ matplotlib
 sklearn
 transformers
 wandb
+hydra
+omegaconf
