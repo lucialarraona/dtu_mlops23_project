@@ -58,9 +58,9 @@ def main(config: DictConfig):
 
     # Access data from processed folder
     # For some reason my relative paths don't work???? - Lu 
-    train_dataset = torch.load('/Users/lucialarraona/dtu_mlops23_project/data/processed/train.pth') 
-    valid_dataset = torch.load('/Users/lucialarraona/dtu_mlops23_project/data/processed/valid.pth')
-    test_dataset = torch.load('/Users/lucialarraona/dtu_mlops23_project/data/processed/test.pth')
+    train_dataset = torch.load('/zhome/9c/7/174708/dtu_mlops23_project/data/processed/train.pth') 
+    valid_dataset = torch.load('/zhome/9c/7/174708/dtu_mlops23_project/data/processed/valid.pth')
+    test_dataset = torch.load('/zhome/9c/7/174708/dtu_mlops23_project/data/processed/test.pth')
 
 
     # ---------------- Model Definition / Tokenization / Encoding / Metrics definition ---------------------
@@ -134,7 +134,7 @@ def main(config: DictConfig):
     log.info("Finish! :D")
 
     # Save the model and tokenizer for predict_model
-    model_path = '/models/models_trained'
+    model_path = '/zhome/9c/7/174708/dtu_mlops23_project/models/model_trained'
     model.save_pretrained(model_path)
     tokenizer.save_pretrained(model_path)
 
@@ -157,7 +157,7 @@ def main(config: DictConfig):
     sns.heatmap(matrix, annot=True, cmap='Reds',fmt='g')
     plt.xlabel("Predicted class")
     plt.ylabel("True class") 
-    plt.savefig('reports/figures/cfm_train.png')
+    plt.savefig('/zhome/9c/7/174708/dtu_mlops23_project/reports/figures/cfm_train.png')
 
     # Classification report
     clas_report = classification_report(labels, predictions.argmax(axis=1))
