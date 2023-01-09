@@ -34,6 +34,10 @@ import matplotlib.pyplot as plt
 from sklearn.metrics import classification_report
 from omegaconf import DictConfig
 
+from huggingface_hub import notebook_login
+#notebook_login()
+
+
 log = logging.getLogger(__name__)
 @hydra.main(config_path="../config", config_name="default_config.yaml") # specify path of config file to later pass it to wandb 
 
@@ -117,7 +121,8 @@ def main(config: DictConfig):
                                                               # but you can specify `metric_for_best_model` argument to change to accuracy or other metric
         logging_steps=400,                                    # log & save weights each logging_steps
         #save_steps=400,
-        report_to='wandb'                                     # report to WANDB to keep track of the metrics :) 
+        report_to='wandb',                                     # report to WANDB to keep track of the metrics :) 
+        push_to_hub = True
     )
 
     trainer = Trainer(
@@ -133,10 +138,12 @@ def main(config: DictConfig):
     
     log.info("Finish! :D")
 
-    # Save the model and tokenizer for predict_model
-    model_path = '/zhome/9c/7/174708/dtu_mlops23_project/models/model_trained'
-    model.save_pretrained(model_path)
-    tokenizer.save_pretrained(model_path)
+    trainer.push_to_hub() # push it to the huggingface repository (cloud)
+
+    # Save the model and tokenizer for predict_model (locally)
+    #model_path = '/zhome/9c/7/174708/dtu_mlops23_project/models/model_trained'
+    #model.save_pretrained(model_path)
+    #tokenizer.save_pretrained(model_path)
 
 
 

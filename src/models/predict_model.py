@@ -8,6 +8,7 @@ import numpy as np
 import random
 from sklearn.metrics import precision_recall_fscore_support
 from sklearn.metrics import accuracy_score
+from huggingface_hub import notebook_login
 
 import sys
 import os
@@ -29,7 +30,7 @@ import matplotlib.pyplot as plt
 from sklearn.metrics import classification_report
 from sklearn.preprocessing import LabelEncoder
 
-
+notebook_login()
 
 log = logging.getLogger(__name__)
 torch.cuda.empty_cache() # for better performance
