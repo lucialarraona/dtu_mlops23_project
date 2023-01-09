@@ -41,6 +41,7 @@ def main(input_filepath, output_filepath):
 
     # Coding the text labels to numbers for training 
     labelencoder = LabelEncoder()
+
 #    Assigning numerical values and storing in another column
     df_train['emotion_cat'] = labelencoder.fit_transform(df_train['emotion'])
     df_valid['emotion_cat'] = labelencoder.fit_transform(df_valid['emotion'])
@@ -53,8 +54,8 @@ def main(input_filepath, output_filepath):
     X_valid = df_valid['text']
     Y_valid = df_valid['emotion_cat']
 
-    X_test = df_train['text']
-    Y_test =  df_train['emotion_cat']
+    X_test = df_test['text']
+    Y_test =  df_test['emotion_cat']
 
         # Define model-name (based on hugging-face library)
     model_name = "bert-base-uncased"
