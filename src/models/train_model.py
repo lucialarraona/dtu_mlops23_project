@@ -164,7 +164,7 @@ def main(config: DictConfig):
 
     # Confusion matrix with counts (plot)
     plt.figure(figsize = (10,7))
-    sns.set(font_scale=2.0)
+    sns.set(font_scale=1.0)
     sns.heatmap(matrix, annot=True, cmap='Reds',fmt='g')
     plt.xlabel("Predicted class")
     plt.ylabel("True class") 

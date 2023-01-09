@@ -162,14 +162,20 @@ def main(model_filepath, data_filepath):
     predictions,labels, metrics = trainer.predict(sample_dataset)  
     # Conf matrix definition
     matrix = confusion_matrix(labels, predictions.argmax(axis=1))
+    
+    cm_df = pd.DataFrame(matrix,
+                     index = ['joy','sadness','anger', 'fear','love','surprise'], 
+                     columns = ['joy','sadness','anger', 'fear','love','surprise'])
 
     # Confusion matrix with counts (plot)
     plt.figure(figsize = (10,7))
-    sns.set(font_scale=2.0)
-    sns.heatmap(matrix, annot=True, cmap='Reds',fmt='g')
+    sns.set(font_scale=1.0)
+    sns.heatmap(cm_df, annot=True, cmap='Blues',fmt='g')
     plt.xlabel("Predicted class")
     plt.ylabel("True class") 
-    
+    plt.savefig('/zhome/9c/7/174708/dtu_mlops23_project/reports/figures/cfm_predict.png')
+
+
 
     # Classification report
     clas_report = classification_report(labels, predictions.argmax(axis=1))
