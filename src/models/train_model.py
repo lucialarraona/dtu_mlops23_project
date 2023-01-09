@@ -49,8 +49,8 @@ def main(config: DictConfig):
     # Initiate wandb logging
     wandb.init(project='dtu_mlops', 
             entity='lucialarraona',
-            name="bert-test",
-            tags=["baseline", "low-lr", "1epoch", "test"],
+            name="bert-test-3",
+            #tags=["baseline", "low-lr", "1epoch", "test"],
             group='bert',
             config = config, #specify config file to read the hyperparameters from 
             )
@@ -110,13 +110,13 @@ def main(config: DictConfig):
         learning_rate = config.train.lr,
         warmup_steps=500,                                     # number of warmup steps for learning rate scheduler
         weight_decay=config.train.weight_decay,               # strength of weight decay
-        logging_dir='models/logs',                            # directory for storing logs
+        logging_dir='/zhome/9c/7/174708/dtu_mlops23_project/models/logs',                            # directory for storing logs
         load_best_model_at_end=True,                          # load the best model when finished training (default metric is loss)
         metric_for_best_model = 'accuracy',
                                             
                                                               # but you can specify `metric_for_best_model` argument to change to accuracy or other metric
         logging_steps=400,                                    # log & save weights each logging_steps
-        save_steps=400,
+        #save_steps=400,
         report_to='wandb'                                     # report to WANDB to keep track of the metrics :) 
     )
 
