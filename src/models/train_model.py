@@ -10,6 +10,8 @@ import random
 from sklearn.metrics import precision_recall_fscore_support
 from sklearn.metrics import accuracy_score
 
+from transformers import AutoTokenizer, AutoModelForSequenceClassification
+from dotenv import find_dotenv, load_dotenv
 from pathlib import Path
 from dotenv import find_dotenv, load_dotenv
 import sys
@@ -53,7 +55,7 @@ def main(config: DictConfig):
     # Initiate wandb logging
     wandb.init(project='dtu_mlops', 
             entity='lucialarraona',
-            name="bert-test-3",
+            name="bert-test-5",
             #tags=["baseline", "low-lr", "1epoch", "test"],
             group='bert',
             config = config, #specify config file to read the hyperparameters from 
@@ -114,6 +116,7 @@ def main(config: DictConfig):
         learning_rate = config.train.lr,
         warmup_steps=500,                                     # number of warmup steps for learning rate scheduler
         weight_decay=config.train.weight_decay,               # strength of weight decay
+        logging_strategy= 'epoch',
         logging_dir='/zhome/9c/7/174708/dtu_mlops23_project/models/logs',                            # directory for storing logs
         load_best_model_at_end=True,                          # load the best model when finished training (default metric is loss)
         metric_for_best_model = 'accuracy',
@@ -138,7 +141,8 @@ def main(config: DictConfig):
     
     log.info("Finish! :D")
 
-    trainer.push_to_hub() # push it to the huggingface repository (cloud)
+    trainer.push_to_hub()  # push it to the huggingface repository (cloud)
+    tokenizer.push_to_hub()
 
     # Save the model and tokenizer for predict_model (locally)
     #model_path = '/zhome/9c/7/174708/dtu_mlops23_project/models/model_trained'
@@ -149,7 +153,7 @@ def main(config: DictConfig):
 
 
     # ------------------------------ Evaluation of the model----------------
-
+    print('Evaluating on test data...')
     # WE DONT CALL TRAINER.TRAIN() we call TRAINER.EVALUATE()
     trainer.evaluate()
 

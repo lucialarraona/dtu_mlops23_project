@@ -9,6 +9,8 @@ import random
 from sklearn.metrics import precision_recall_fscore_support
 from sklearn.metrics import accuracy_score
 from huggingface_hub import notebook_login
+from transformers import AutoTokenizer, AutoModelForSequenceClassification
+from dotenv import find_dotenv, load_dotenv
 
 import sys
 import os
@@ -19,6 +21,8 @@ from data.make_dataset import TextDataset # import our dataset class
 import wandb
 import os
 import logging 
+import click
+import argparse
 
 from sklearn.metrics import precision_recall_fscore_support
 from sklearn.metrics import accuracy_score
@@ -30,11 +34,14 @@ import matplotlib.pyplot as plt
 from sklearn.metrics import classification_report
 from sklearn.preprocessing import LabelEncoder
 
-notebook_login()
+#notebook_login()
 
 log = logging.getLogger(__name__)
 torch.cuda.empty_cache() # for better performance
 
+@click.command()
+@click.argument("model_filepath") 
+@click.argument("data_filepath", type=click.Path())
 
 
 def main(model_filepath, data_filepath):
@@ -44,15 +51,23 @@ def main(model_filepath, data_filepath):
                     model_filepath (string): path to a pretrained model
                     data_filepath (string): path to raw data from a random user
     """
-
+    parser = argparse.ArgumentParser(description="Training arguments")
+    parser.add_argument("load_model_from", default="")
+    # add any additional argument that you want
+    args = parser.parse_args(sys.argv[2:])
+    print(args)
 
     max_length = 200
-    tokenizer = BertTokenizerFast.from_pretrained(model_filepath, do_lower_case=True)
-    model = BertForSequenceClassification.from_pretrained(model_filepath,# Use the 12-layer BERT model, with an uncased vocab.
-                                                        num_labels = 6, # The number of output labels--2 for binary classification.  si pones num_labels=1 hace MSE LOSS
-                                                        output_attentions = False, # Whether the model returns attentions weights. True, for future visualization
-                                                        output_hidden_states = False ,# Whether the model returns all hidden-states.   
-                                                        vocab_size=tokenizer.vocab_size)
+    #tokenizer = BertTokenizerFast.from_pretrained(model_filepath, do_lower_case=True)
+    #model = BertForSequenceClassification.from_pretrained(model_filepath,# Use the 12-layer BERT model, with an uncased vocab.
+                                                       # num_labels = 6, # The number of output labels--2 for binary classification.  si pones num_labels=1 hace MSE LOSS
+                                                       # output_attentions = False, # Whether the model returns attentions weights. True, for future visualization
+                                                       # output_hidden_states = False ,# Whether the model returns all hidden-states.   
+                                                       # vocab_size=tokenizer.vocab_size)
+
+    # lucixls/models
+    tokenizer = AutoTokenizer.from_pretrained(model_filepath)
+    model = AutoModelForSequenceClassification.from_pretrained(model_filepath)                                                  
 
 
 
@@ -73,7 +88,7 @@ def main(model_filepath, data_filepath):
     max_length=max_length,
     return_token_type_ids=False,
     padding=True,
-    return_attention_mask=True,
+    return_attention_mask=False,
     return_tensors='pt')
     # Convert our sample tokenized data into a torch Dataset
     sample_dataset = TextDataset(sample_encodings, torch.from_numpy(Y_sample.values))
@@ -99,8 +114,8 @@ def main(model_filepath, data_filepath):
         }
 
      # Access data from processed folder (for definition of the trainer object)
-    train_dataset = torch.load("data/processed/train.pth")
-    valid_dataset = torch.load("data/processed/valid.pth")
+    train_dataset = torch.load('/zhome/9c/7/174708/dtu_mlops23_project/data/processed/train.pth') 
+    valid_dataset = torch.load('/zhome/9c/7/174708/dtu_mlops23_project/data/processed/valid.pth')
 
 
     training_args = TrainingArguments(
