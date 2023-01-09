@@ -142,7 +142,7 @@ def main(config: DictConfig):
     log.info("Finish! :D")
 
     trainer.push_to_hub()  # push it to the huggingface repository (cloud)
-    tokenizer.push_to_hub()
+    tokenizer.push_to_hub("lucixls/models")
 
     # Save the model and tokenizer for predict_model (locally)
     #model_path = '/zhome/9c/7/174708/dtu_mlops23_project/models/model_trained'
