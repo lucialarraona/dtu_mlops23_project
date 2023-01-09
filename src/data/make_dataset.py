@@ -72,7 +72,7 @@ def main(input_filepath, output_filepath):
         max_length=max_length,
         return_token_type_ids=False,
         padding=True,
-        return_attention_mask=True,
+        return_attention_mask=False,
         return_tensors='pt')
 
     valid_encodings = tokenizer(df_valid.text.values.tolist(), 
@@ -81,7 +81,7 @@ def main(input_filepath, output_filepath):
         max_length=max_length,
         return_token_type_ids=False,
         padding=True,
-        return_attention_mask=True,
+        return_attention_mask=False,
         return_tensors='pt')
 
 
@@ -91,7 +91,7 @@ def main(input_filepath, output_filepath):
         max_length=max_length,
         return_token_type_ids=False,
         padding=True,
-        return_attention_mask=True,
+        return_attention_mask=False,
         return_tensors='pt')
 
 
