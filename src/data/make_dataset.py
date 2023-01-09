@@ -1,18 +1,18 @@
 # -*- coding: utf-8 -*-
-import click
 import logging
-from pathlib import Path
-from dotenv import find_dotenv, load_dotenv
-import pandas as pd
-import sys
 import os
+import sys
+from pathlib import Path
 
+import click
+import pandas as pd
 import torch
-from transformers.file_utils import is_tf_available, is_torch_available, is_torch_tpu_available
-from transformers import BertTokenizerFast, BertForSequenceClassification
-from transformers import AutoTokenizer
-from transformers import AutoModelForSequenceClassification
+from dotenv import find_dotenv, load_dotenv
 from sklearn.preprocessing import LabelEncoder
+from transformers import (AutoModelForSequenceClassification, AutoTokenizer,
+                          BertForSequenceClassification, BertTokenizerFast)
+from transformers.file_utils import (is_tf_available, is_torch_available,
+                                     is_torch_tpu_available)
 
 sys.path.insert(1, os.path.join(sys.path[0], ".."))
 

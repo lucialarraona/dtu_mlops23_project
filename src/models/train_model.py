@@ -1,42 +1,37 @@
 
 # hello from hpc?
-import torch
-#from transformers.file_utils import is_tf_available, is_torch_available, is_torch_tpu_available
-from transformers import BertTokenizerFast, BertForSequenceClassification
-from transformers import  TrainingArguments, Trainer
-from transformers import Trainer, TrainingArguments
-import numpy as np
-import random
-from sklearn.metrics import precision_recall_fscore_support
-from sklearn.metrics import accuracy_score
-
-from transformers import AutoTokenizer, AutoModelForSequenceClassification
-from dotenv import find_dotenv, load_dotenv
-from pathlib import Path
-from dotenv import find_dotenv, load_dotenv
-import sys
 import os
+import random
+import sys
+from pathlib import Path
+
+import numpy as np
+import torch
+from dotenv import find_dotenv, load_dotenv
+from sklearn.metrics import accuracy_score, precision_recall_fscore_support
+#from transformers.file_utils import is_tf_available, is_torch_available, is_torch_tpu_available
+from transformers import (AutoModelForSequenceClassification, AutoTokenizer,
+                          BertForSequenceClassification, BertTokenizerFast,
+                          Trainer, TrainingArguments)
+
 sys.path.insert(1, os.path.join(sys.path[0], ".."))
 print(sys.path.insert(1, os.path.join(sys.path[0], "..")))
 
-from data.make_dataset import TextDataset  #import our dataset class 
+import logging
+import os
+
+import hydra
+import matplotlib.pyplot as plt
+import pandas as pd
+import seaborn as sns
+from huggingface_hub import notebook_login
+from omegaconf import DictConfig
+from sklearn.metrics import (accuracy_score, classification_report,
+                             confusion_matrix, precision_recall_fscore_support)
 
 import wandb
-import os
-import logging 
-import hydra
+from data.make_dataset import TextDataset  # import our dataset class
 
-from sklearn.metrics import precision_recall_fscore_support
-from sklearn.metrics import accuracy_score
-
-from sklearn.metrics import confusion_matrix
-import seaborn as sns
-import pandas as pd
-import matplotlib.pyplot as plt
-from sklearn.metrics import classification_report
-from omegaconf import DictConfig
-
-from huggingface_hub import notebook_login
 #notebook_login()
 
 
