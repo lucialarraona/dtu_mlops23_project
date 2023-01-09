@@ -51,6 +51,14 @@ def main(model_filepath, data_filepath):
                     model_filepath (string): path to a pretrained model
                     data_filepath (string): path to raw data from a random user
     """
+    wandb.init(project='dtu_mlops', 
+            entity='lucialarraona',
+            name="inference-2",
+            #tags=["baseline", "low-lr", "1epoch", "test"],
+            group='bert-inference',
+            #config = config, #specify config file to read the hyperparameters from 
+            )
+
     parser = argparse.ArgumentParser(description="Training arguments")
     parser.add_argument("load_model_from", default="")
     # add any additional argument that you want
@@ -161,6 +169,7 @@ def main(model_filepath, data_filepath):
     sns.heatmap(matrix, annot=True, cmap='Reds',fmt='g')
     plt.xlabel("Predicted class")
     plt.ylabel("True class") 
+    
 
     # Classification report
     clas_report = classification_report(labels, predictions.argmax(axis=1))
