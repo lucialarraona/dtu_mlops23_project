@@ -66,9 +66,9 @@ def main(config: DictConfig):
 
     # Access data from processed folder
     # For some reason my relative paths don't work???? - Lu 
-    train_dataset = torch.load('data/processed/train.pth') 
-    valid_dataset = torch.load('data/processed/valid.pth')
-    test_dataset = torch.load('data/processed/test.pth')
+    train_dataset = torch.load('dtu_mlops23_project/data/processed/train.pth') 
+    valid_dataset = torch.load('dtu_mlops23_project/data/processed/valid.pth')
+    test_dataset = torch.load('dtu_mlops23_project/processed/test.pth')
 
 
     # ---------------- Model Definition / Tokenization / Encoding / Metrics definition ---------------------
