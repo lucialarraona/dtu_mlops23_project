@@ -15,10 +15,12 @@ from transformers import (AutoModelForSequenceClassification, AutoTokenizer,
                           BertForSequenceClassification, BertTokenizerFast,
                           Trainer, TrainingArguments)
 
+
 sys.path.append(os.getcwd())
 print(sys.path.append(os.getcwd()))
-#sys.path.insert(1, os.path.join(sys.path[0], ".."))
-#print(sys.path.insert(1, os.path.join(sys.path[0], "..")))
+
+sys.path.insert(1, os.path.join(sys.path[0], ".."))
+print(sys.path.insert(1, os.path.join(sys.path[0], "..")))
 
 import logging
 import os
@@ -53,7 +55,7 @@ def main(config: DictConfig):
     # Initiate wandb logging
     wandb.init(project='dtu_mlops', 
             entity='lucialarraona',
-            name="bert-test-5",
+            name="bert-test-7",
             #tags=["baseline", "low-lr", "1epoch", "test"],
             group='bert',
             config = config, #specify config file to read the hyperparameters from 
