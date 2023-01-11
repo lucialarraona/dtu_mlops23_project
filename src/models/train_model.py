@@ -16,8 +16,9 @@ from transformers import (AutoModelForSequenceClassification, AutoTokenizer,
                           Trainer, TrainingArguments)
 
 
-sys.path.append(os.getcwd())
-print(sys.path.append(os.getcwd()))
+#sys.path.append(os.getcwd())
+#print(sys.path.append(os.getcwd()))
+sys.path.append('../')
 
 sys.path.insert(1, os.path.join(sys.path[0], ".."))
 print(sys.path.insert(1, os.path.join(sys.path[0], "..")))
@@ -61,12 +62,13 @@ def main(config: DictConfig):
             config = config, #specify config file to read the hyperparameters from 
             )
             
+    
 
     # Access data from processed folder
     # For some reason my relative paths don't work???? - Lu 
-    train_dataset = torch.load('/data/processed/train.pth') 
-    valid_dataset = torch.load('/data/processed/valid.pth')
-    test_dataset = torch.load('/data/processed/test.pth')
+    train_dataset = torch.load('data/processed/train.pth') 
+    valid_dataset = torch.load('data/processed/valid.pth')
+    test_dataset = torch.load('data/processed/test.pth')
 
 
     # ---------------- Model Definition / Tokenization / Encoding / Metrics definition ---------------------
