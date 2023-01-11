@@ -121,7 +121,7 @@ def main(config: DictConfig):
         warmup_steps=500,                                     # number of warmup steps for learning rate scheduler
         weight_decay=config.train.weight_decay,               # strength of weight decay
         logging_strategy= 'epoch',
-        logging_dir='models/logs',                            # directory for storing logs
+        logging_dir=project_root + '/models/logs',                            # directory for storing logs
         load_best_model_at_end=True,                          # load the best model when finished training (default metric is loss)
         metric_for_best_model = 'accuracy',
                                             
@@ -172,7 +172,7 @@ def main(config: DictConfig):
     sns.heatmap(matrix, annot=True, cmap='Reds',fmt='g')
     plt.xlabel("Predicted class")
     plt.ylabel("True class") 
-    plt.savefig('reports/figures/cfm_train.png')
+    plt.savefig(project_root + 'reports/figures/cfm_train.png')
 
     # Classification report
     clas_report = classification_report(labels, predictions.argmax(axis=1))
