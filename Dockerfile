@@ -13,10 +13,11 @@ RUN pip install get-project-root
 RUN pip install "dvc[gs]" 
 RUN dvc init --no-scm
 RUN dvc remote add -d storage gs://mlops-project-data-44/
+RUN dvc pull -f
 COPY data.dvc data.dvc
 COPY setup.py setup.py
 COPY src/ src/
 COPY models/ models/
-#RUN dvc pull
+
 
 ENTRYPOINT ["python", "-u", "src/models/train_model.py"]
