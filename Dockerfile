@@ -8,10 +8,14 @@ RUN apt update && \
 COPY requirements.txt requirements.txt
 COPY setup.py setup.py
 COPY src/ src/
-COPY data/ data/
 COPY models/ models/
 
 WORKDIR /
 RUN pip install -r requirements.txt --no-cache-dir
+RUN pip install "dvc[gs]" 
+RUN dvc init --no-scm
+RUN dvc remote add -d storage gs://mlops-project-data-44/
+COPY data.dvc data.dvc
+RUN dvc pull
 
 ENTRYPOINT ["python", "-u", "src/models/train_model.py"]
