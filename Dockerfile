@@ -9,6 +9,7 @@ WORKDIR /
 COPY requirements.txt requirements.txt
 RUN ls
 RUN pip install -r requirements.txt --no-cache-dir
+RUN pip install get-project-root
 RUN pip install "dvc[gs]" 
 RUN dvc init --no-scm
 RUN dvc remote add -d storage gs://mlops-project-data-44/
