@@ -18,10 +18,10 @@ from transformers import (AutoModelForSequenceClassification, AutoTokenizer,
 
 #sys.path.append(os.getcwd())
 #print(sys.path.append(os.getcwd()))
-sys.path.append('../')
+sys.path.append('..')
 
-sys.path.insert(1, os.path.join(sys.path[0], ".."))
-print(sys.path.insert(1, os.path.join(sys.path[0], "..")))
+#sys.path.insert(1, os.path.join(sys.path[0], ".."))
+#print(sys.path.insert(1, os.path.join(sys.path[0], "..")))
 
 import logging
 import os
