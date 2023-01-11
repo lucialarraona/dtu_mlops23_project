@@ -63,7 +63,7 @@ def main(config: DictConfig):
             )
             
     
-    input_filepath = os.getcwd() 
+    input_filepath = os.path.dirname(os.path.abspath(__file__))
     # Access data from processed folder
     # For some reason my relative paths don't work???? - Lu 
     train_dataset = torch.load(input_filepath + '/data/processed/train.pth') 
