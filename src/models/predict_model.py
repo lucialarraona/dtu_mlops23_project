@@ -13,7 +13,10 @@ from transformers import (AutoModelForSequenceClassification, AutoTokenizer,
                           BertForSequenceClassification, BertTokenizerFast,
                           Trainer, TrainingArguments)
 
-sys.path.insert(1, os.path.join(sys.path[0], ".."))
+sys.path.append(os.getcwd())
+print(sys.path.append(os.getcwd()))
+
+#sys.path.insert(1, os.path.join(sys.path[0], ".."))
 import argparse
 import logging
 import os
@@ -118,8 +121,8 @@ def main(model_filepath, data_filepath):
         }
 
      # Access data from processed folder (for definition of the trainer object)
-    train_dataset = torch.load('/zhome/9c/7/174708/dtu_mlops23_project/data/processed/train.pth') 
-    valid_dataset = torch.load('/zhome/9c/7/174708/dtu_mlops23_project/data/processed/valid.pth')
+    train_dataset = torch.load('data/processed/train.pth') 
+    valid_dataset = torch.load('data/processed/valid.pth')
 
 
     training_args = TrainingArguments(
@@ -169,7 +172,7 @@ def main(model_filepath, data_filepath):
     sns.heatmap(cm_df, annot=True, cmap='Blues',fmt='g')
     plt.xlabel("Predicted class")
     plt.ylabel("True class") 
-    plt.savefig('/zhome/9c/7/174708/dtu_mlops23_project/reports/figures/cfm_predict.png')
+    plt.savefig('reports/figures/cfm_predict.png')
 
 
 

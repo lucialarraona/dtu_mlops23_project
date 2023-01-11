@@ -15,8 +15,10 @@ from transformers import (AutoModelForSequenceClassification, AutoTokenizer,
                           BertForSequenceClassification, BertTokenizerFast,
                           Trainer, TrainingArguments)
 
-sys.path.insert(1, os.path.join(sys.path[0], ".."))
-print(sys.path.insert(1, os.path.join(sys.path[0], "..")))
+sys.path.append(os.getcwd())
+print(sys.path.append(os.getcwd()))
+#sys.path.insert(1, os.path.join(sys.path[0], ".."))
+#print(sys.path.insert(1, os.path.join(sys.path[0], "..")))
 
 import logging
 import os
@@ -60,9 +62,9 @@ def main(config: DictConfig):
 
     # Access data from processed folder
     # For some reason my relative paths don't work???? - Lu 
-    train_dataset = torch.load('/zhome/9c/7/174708/dtu_mlops23_project/data/processed/train.pth') 
-    valid_dataset = torch.load('/zhome/9c/7/174708/dtu_mlops23_project/data/processed/valid.pth')
-    test_dataset = torch.load('/zhome/9c/7/174708/dtu_mlops23_project/data/processed/test.pth')
+    train_dataset = torch.load('data/processed/train.pth') 
+    valid_dataset = torch.load('data/processed/valid.pth')
+    test_dataset = torch.load('data/processed/test.pth')
 
 
     # ---------------- Model Definition / Tokenization / Encoding / Metrics definition ---------------------
@@ -113,7 +115,7 @@ def main(config: DictConfig):
         warmup_steps=500,                                     # number of warmup steps for learning rate scheduler
         weight_decay=config.train.weight_decay,               # strength of weight decay
         logging_strategy= 'epoch',
-        logging_dir='/zhome/9c/7/174708/dtu_mlops23_project/models/logs',                            # directory for storing logs
+        logging_dir='models/logs',                            # directory for storing logs
         load_best_model_at_end=True,                          # load the best model when finished training (default metric is loss)
         metric_for_best_model = 'accuracy',
                                             
@@ -164,7 +166,7 @@ def main(config: DictConfig):
     sns.heatmap(matrix, annot=True, cmap='Reds',fmt='g')
     plt.xlabel("Predicted class")
     plt.ylabel("True class") 
-    plt.savefig('/zhome/9c/7/174708/dtu_mlops23_project/reports/figures/cfm_train.png')
+    plt.savefig('reports/figures/cfm_train.png')
 
     # Classification report
     clas_report = classification_report(labels, predictions.argmax(axis=1))
