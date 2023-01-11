@@ -59,7 +59,7 @@ def main(config: DictConfig):
     wandb.init(project='dtu_mlops', 
             entity='lucialarraona',
             name="bert-test-8",
-            tags=["test", "gcloud"],
+            tags=["test"],
             group='bert',
             config = config, #specify config file to read the hyperparameters from 
             )

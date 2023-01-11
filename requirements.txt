@@ -11,3 +11,4 @@ seaborn==0.12.2
 setuptools==65.4.1
 torch==1.13.1
 transformers==4.25.1
+get-project-root
