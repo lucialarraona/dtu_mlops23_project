@@ -16,8 +16,8 @@ from transformers import (AutoModelForSequenceClassification, AutoTokenizer,
                           Trainer, TrainingArguments)
 
 
-#sys.path.append(os.getcwd())
-#print(sys.path.append(os.getcwd()))
+sys.path.append(os.getcwd())
+print(sys.path.append(os.getcwd()))
 sys.path.append('..')
 
 sys.path.insert(1, os.path.join(sys.path[0], ".."))
@@ -56,19 +56,19 @@ def main(config: DictConfig):
     # Initiate wandb logging
     wandb.init(project='dtu_mlops', 
             entity='lucialarraona',
-            name="bert-test-7",
-            #tags=["baseline", "low-lr", "1epoch", "test"],
+            name="bert-test-8",
+            tags=["test", "gcloud"],
             group='bert',
             config = config, #specify config file to read the hyperparameters from 
             )
             
     
-
+    input_filepath = os.getcwd() 
     # Access data from processed folder
     # For some reason my relative paths don't work???? - Lu 
-    train_dataset = torch.load('/dtu_mlops23_project/data/processed/train.pth') 
-    valid_dataset = torch.load('/dtu_mlops23_project/data/processed/valid.pth')
-    test_dataset = torch.load('/dtu_mlops23_project/processed/test.pth')
+    train_dataset = torch.load(input_filepath + '/data/processed/train.pth') 
+    valid_dataset = torch.load(input_filepath + '/data/processed/valid.pth')
+    test_dataset = torch.load(input_filepath + '/data/processed/test.pth')
 
 
     # ---------------- Model Definition / Tokenization / Encoding / Metrics definition ---------------------
