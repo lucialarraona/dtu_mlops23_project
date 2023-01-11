@@ -15,6 +15,9 @@ from transformers import (AutoModelForSequenceClassification, AutoTokenizer,
                           BertForSequenceClassification, BertTokenizerFast,
                           Trainer, TrainingArguments)
 
+from get_project_root import root_path
+project_root = root_path(ignore_cwd=False)
+
 
 sys.path.append(os.getcwd())
 print(sys.path.append(os.getcwd()))
@@ -63,12 +66,12 @@ def main(config: DictConfig):
             )
             
     
-    input_filepath = os.path.dirname(os.path.abspath(__file__))
+    input_filepath = os.path.realpath(os.path.join(os.path.dirname(__file__), '..'))
+    
     # Access data from processed folder
-    # For some reason my relative paths don't work???? - Lu 
-    train_dataset = torch.load(input_filepath + '/data/processed/train.pth') 
-    valid_dataset = torch.load(input_filepath + '/data/processed/valid.pth')
-    test_dataset = torch.load(input_filepath + '/data/processed/test.pth')
+    train_dataset = torch.load(project_root + '/data/processed/train.pth') 
+    valid_dataset = torch.load(project_root + '/data/processed/valid.pth')
+    test_dataset = torch.load(project_root + '/data/processed/test.pth')
 
 
     # ---------------- Model Definition / Tokenization / Encoding / Metrics definition ---------------------
