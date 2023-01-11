@@ -16,6 +16,9 @@ RUN pip install "dvc[gs]"
 RUN dvc init --no-scm
 RUN dvc remote add -d storage gs://mlops-project-data-44/
 COPY data.dvc data.dvc
+RUN pip install gcloud
+RUN gcloud auth login
+RUN gcloud auth application-default login
 RUN dvc pull
 
 ENTRYPOINT ["python", "-u", "src/models/train_model.py"]
