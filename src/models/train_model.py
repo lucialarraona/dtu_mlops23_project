@@ -16,7 +16,6 @@ from transformers import (AutoModelForSequenceClassification, AutoTokenizer,
                           Trainer, TrainingArguments)
 
 from get_project_root import root_path
-project_root = root_path(ignore_cwd=False)
 
 
 sys.path.append(os.getcwd())
@@ -66,7 +65,7 @@ def main(config: DictConfig):
             )
             
     
-    input_filepath = os.path.realpath(os.path.join(os.path.dirname(__file__), '..'))
+    project_root = root_path(ignore_cwd=False)
     
     # Access data from processed folder
     train_dataset = torch.load(project_root + '/data/processed/train.pth') 
