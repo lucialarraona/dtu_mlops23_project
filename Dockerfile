@@ -6,11 +6,12 @@ RUN apt update && \
     apt clean && rm -rf /var/lib/apt/lists/*
 
 COPY requirements.txt requirements.txt
-COPY setup.py setup.py
-COPY src/ src/
-COPY models/ models/
+#COPY setup.py setup.py
+#COPY src/ src/
+#COPY models/ models/
 
 WORKDIR /
+RUN ls
 RUN pip install -r requirements.txt --no-cache-dir
 RUN pip install "dvc[gs]" 
 RUN dvc init --no-scm
