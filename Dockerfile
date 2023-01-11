@@ -11,6 +11,7 @@ COPY src/ src/
 COPY models/ models/
 
 WORKDIR /
+RUN pip freeze > requirements.txt
 RUN pip install -r requirements.txt --no-cache-dir
 RUN pip install "dvc[gs]" 
 RUN dvc init --no-scm
