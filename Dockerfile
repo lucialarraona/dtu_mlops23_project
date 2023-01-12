@@ -7,7 +7,6 @@ RUN apt update && \
 
 WORKDIR /
 COPY requirements.txt requirements.txt
-RUN ls
 RUN pip install -r requirements.txt --no-cache-dir
 RUN pip install get-project-root
 RUN pip install wandb 
@@ -19,6 +18,7 @@ COPY data.dvc data.dvc
 COPY setup.py setup.py
 COPY src/ src/
 COPY models/ models/
+RUN ls
 
 
 ENTRYPOINT ["python", "-u", "src/models/train_model.py"]
