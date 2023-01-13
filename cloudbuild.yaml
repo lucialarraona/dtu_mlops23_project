@@ -1,5 +1,5 @@
 steps:
 - name: 'gcr.io/cloud-builders/docker'
-  args: ['build', '-t', 'gcr.io/wired-standard-374308/finalproject', '.']
+  args: ['build', '-t', 'gcr.io/wired-standard-374308/finalproject', '--build-arg=WANDB_API_KEY=${WANDB_API_KEY}', '.']
 - name: 'gcr.io/cloud-builders/docker'
   args: ['push', 'gcr.io/wired-standard-374308/finalproject']
