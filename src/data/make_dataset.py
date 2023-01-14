@@ -51,11 +51,14 @@ def main(input_filepath, output_filepath):
     X_train = df_train['text']
     Y_train = df_train['emotion_cat']
 
+
     X_valid = df_valid['text']
     Y_valid = df_valid['emotion_cat']
 
+
     X_test = df_test['text']
     Y_test =  df_test['emotion_cat']
+
 
         # Define model-name (based on hugging-face library)
     model_name = "bert-base-uncased"
