@@ -18,9 +18,9 @@ from transformers import (AutoModelForSequenceClassification, AutoTokenizer,
 from get_project_root import root_path
 
 
-sys.path.append(os.getcwd())
-print(sys.path.append(os.getcwd()))
-sys.path.append('..')
+#sys.path.append(os.getcwd())
+#print(sys.path.append(os.getcwd()))
+#sys.path.append('..')
 
 sys.path.insert(1, os.path.join(sys.path[0], ".."))
 print(sys.path.insert(1, os.path.join(sys.path[0], "..")))
@@ -67,12 +67,13 @@ def main(config: DictConfig):
     wandb.init(mode="disabled")
             
     
-    project_root = root_path(ignore_cwd=False)
+    #project_root = root_path(ignore_cwd=False)
     
-    # Access data from processed folder
-    train_dataset = torch.load(project_root + '/data/processed/train.pth') 
-    valid_dataset = torch.load(project_root + '/data/processed/valid.pth')
-    test_dataset = torch.load(project_root + '/data/processed/test.pth')
+    project_root = Path(__file__).parent.parent.parent
+    train_dataset = torch.load(project_root.joinpath('data', 'processed', 'train.pth'))
+    valid_dataset = torch.load(project_root.joinpath('data', 'processed', 'valid.pth'))
+    test_dataset = torch.load(project_root.joinpath('data', 'processed', 'test.pth'))
+
 
 
     # ---------------- Model Definition / Tokenization / Encoding / Metrics definition ---------------------
@@ -123,7 +124,7 @@ def main(config: DictConfig):
         warmup_steps=500,                                     # number of warmup steps for learning rate scheduler
         weight_decay=config.train.weight_decay,               # strength of weight decay
         logging_strategy= 'epoch',
-        logging_dir= project_root + '/models/logs',                            # directory for storing logs
+        logging_dir= project_root.joinpath('models', 'logs'),                            # directory for storing logs
         load_best_model_at_end=True,                          # load the best model when finished training (default metric is loss)
         metric_for_best_model = 'accuracy',
                                             
@@ -152,7 +153,7 @@ def main(config: DictConfig):
     #tokenizer.push_to_hub("lucixls/models")
 
     # Save the model and tokenizer for predict_model (locally)
-    model_path = project_root + '/models/models_trained',
+    model_path = project_root.joinpath('models', 'models_trained'),
     model.save_pretrained(model_path)
     tokenizer.save_pretrained(model_path)
 
@@ -167,14 +168,17 @@ def main(config: DictConfig):
     predictions,labels, metrics = trainer.predict(test_dataset)  
     # Conf matrix definition
     matrix = confusion_matrix(labels, predictions.argmax(axis=1))
+    cm_df = pd.DataFrame(matrix,
+                     index = ['anger','fear','joy', 'love','sadness','surprise'], 
+                     columns = ['anger','fear','joy', 'love','sadness','surprise'])
 
     # Confusion matrix with counts (plot)
     plt.figure(figsize = (10,7))
     sns.set(font_scale=1.0)
-    sns.heatmap(matrix, annot=True, cmap='Reds',fmt='g')
+    sns.heatmap(cm_df, annot=True, cmap='Reds',fmt='g')
     plt.xlabel("Predicted class")
     plt.ylabel("True class") 
-    plt.savefig(project_root + '/reports/figures/cfm_train.png')
+    plt.savefig(project_root.joinpath('reports', 'figures', 'cfm_train.png'))
 
     # Classification report
     clas_report = classification_report(labels, predictions.argmax(axis=1))

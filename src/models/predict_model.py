@@ -21,6 +21,7 @@ sys.path.insert(1, os.path.join(sys.path[0], ".."))
 import argparse
 import logging
 import os
+from pathlib import Path
 
 import click
 import matplotlib.pyplot as plt
@@ -127,11 +128,15 @@ def main(model_filepath, data_filepath):
             'recall': recall
         }
 
-    project_root = root_path(ignore_cwd=False)
+    #project_root = root_path(ignore_cwd=False)
 
      # Access data from processed folder (for definition of the trainer object)
-    train_dataset = torch.load(project_root + '/data/processed/train.pth') 
-    valid_dataset = torch.load(project_root + '/data/processed/valid.pth')
+    #train_dataset = torch.load(project_root + '/data/processed/train.pth') 
+    #valid_dataset = torch.load(project_root + '/data/processed/valid.pth')
+    
+    project_root = Path(__file__).parent.parent.parent
+    train_dataset = torch.load(project_root.joinpath('data', 'processed', 'train.pth'))
+    valid_dataset = torch.load(project_root.joinpath('data', 'processed', 'valid.pth'))
 
 
     training_args = TrainingArguments(
@@ -181,7 +186,7 @@ def main(model_filepath, data_filepath):
     sns.heatmap(cm_df, annot=True, cmap='Blues',fmt='g')
     plt.xlabel("Predicted class")
     plt.ylabel("True class") 
-    plt.savefig(project_root + '/reports/figures/cfm_predict.png')
+    plt.savefig(project_root.joinpath('reports', 'figures', 'cfm_predict.png'))
 
 
 
