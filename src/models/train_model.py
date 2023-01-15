@@ -56,13 +56,15 @@ def main(config: DictConfig):
     """
 
     # Initiate wandb logging
-    wandb.init(project='dtu_mlops', 
-            entity='lucialarraona',
-            name="bert-test-8",
-            tags=["test"],
-            group='bert',
-            config = config, #specify config file to read the hyperparameters from 
-            )
+    #wandb.init(project='dtu_mlops', 
+    #        entity='lucialarraona',
+    #        name="bert-test-8",
+    #        tags=["test"],
+    #        group='bert',
+    #        config = config, #specify config file to read the hyperparameters from 
+    #       )
+
+    wandb.init(mode="disabled")
             
     
     project_root = root_path(ignore_cwd=False)

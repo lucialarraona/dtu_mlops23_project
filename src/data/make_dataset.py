@@ -47,6 +47,8 @@ def main(input_filepath, output_filepath):
     df_valid['emotion_cat'] = labelencoder.fit_transform(df_valid['emotion'])
     df_test['emotion_cat'] = labelencoder.fit_transform(df_test['emotion'])
 
+    le_name_mapping = dict(zip(labelencoder.classes_, labelencoder.transform(labelencoder.classes_)))
+    print(le_name_mapping) # Check which category is assigned to what class
 
     X_train = df_train['text']
     Y_train = df_train['emotion_cat']
