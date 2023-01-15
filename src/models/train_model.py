@@ -197,7 +197,6 @@ def main(config: DictConfig):
     None
 
 
-
 if __name__ == "__main__":
 
     project_dir = Path(__file__).resolve().parents[2]
