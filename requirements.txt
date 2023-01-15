@@ -12,3 +12,6 @@ setuptools==65.4.1
 torch==1.13.1
 transformers==4.25.1
 get-project-root
+fastapi>=0.68.0,<0.69.0
+uvicorn>=0.15.0,<0.16.0
+python-multipart=0.0.5
