@@ -49,6 +49,7 @@ def main(input_filepath, output_filepath):
 
     le_name_mapping = dict(zip(labelencoder.classes_, labelencoder.transform(labelencoder.classes_)))
     print(le_name_mapping) # Check which category is assigned to what class
+    # {'anger': 0, 'fear': 1, 'joy': 2, 'love': 3, 'sadness': 4, 'surprise': 5} # result
 
     X_train = df_train['text']
     Y_train = df_train['emotion_cat']

@@ -130,7 +130,7 @@ def main(config: DictConfig):
                                                               # but you can specify `metric_for_best_model` argument to change to accuracy or other metric
         logging_steps=400,                                    # log & save weights each logging_steps
         #save_steps=400,
-        report_to='wandb'                                     # report to WANDB to keep track of the metrics :) 
+        #report_to='wandb'                                     # report to WANDB to keep track of the metrics :) 
         #push_to_hub = True,
         #hub_token = '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' # shouldnt be here but oh well
     )

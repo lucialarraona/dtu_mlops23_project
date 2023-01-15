@@ -32,6 +32,7 @@ from sklearn.preprocessing import LabelEncoder
 # 
 import wandb
 from data.make_dataset import TextDataset  # import our dataset class
+from get_project_root import root_path
 
 #notebook_login()
 
@@ -50,13 +51,13 @@ def main(model_filepath, data_filepath):
                     model_filepath (string): path to a pretrained model
                     data_filepath (string): path to raw data from a random user
     """
-    wandb.init(project='dtu_mlops', 
-            entity='lucialarraona',
-            name="inference-2",
-            #tags=["baseline", "low-lr", "1epoch", "test"],
-            group='bert-inference',
-            #config = config, #specify config file to read the hyperparameters from 
-            )
+    #wandb.init(project='dtu_mlops', 
+    #        entity='lucialarraona',
+    #        name="inference-2",
+    #        #tags=["baseline", "low-lr", "1epoch", "test"],
+    #        group='bert-inference',
+    #        #config = config, #specify config file to read the hyperparameters from 
+    #        )
 
     parser = argparse.ArgumentParser(description="Training arguments")
     parser.add_argument("load_model_from", default="")
@@ -84,6 +85,9 @@ def main(model_filepath, data_filepath):
     labelencoder = LabelEncoder()
     # Assigning numerical values and storing in another column
     sample_raw_data['emotion_cat'] = labelencoder.fit_transform(sample_raw_data['emotion'])
+
+    le_name_mapping = dict(zip(labelencoder.classes_, labelencoder.transform(labelencoder.classes_)))
+    print(le_name_mapping) # Check which category is assigned to what class
     
     X_sample = sample_raw_data['text']
     Y_sample = sample_raw_data['emotion_cat']
@@ -120,9 +124,10 @@ def main(model_filepath, data_filepath):
             'recall': recall
         }
 
+    project_root = root_path(ignore_cwd=False)
      # Access data from processed folder (for definition of the trainer object)
-    train_dataset = torch.load('data/processed/train.pth') 
-    valid_dataset = torch.load('data/processed/valid.pth')
+    train_dataset = torch.load(project_root + '/data/processed/train.pth') 
+    valid_dataset = torch.load(project_root + '/data/processed/valid.pth')
 
 
     training_args = TrainingArguments(
@@ -163,8 +168,8 @@ def main(model_filepath, data_filepath):
     matrix = confusion_matrix(labels, predictions.argmax(axis=1))
     
     cm_df = pd.DataFrame(matrix,
-                     index = ['joy','sadness','anger', 'fear','love','surprise'], 
-                     columns = ['joy','sadness','anger', 'fear','love','surprise'])
+                     index = ['anger','fear','joy', 'love','sadness','surprise'], 
+                     columns = ['anger','fear','joy', 'love','sadness','surprise'])
 
     # Confusion matrix with counts (plot)
     plt.figure(figsize = (10,7))
@@ -172,7 +177,7 @@ def main(model_filepath, data_filepath):
     sns.heatmap(cm_df, annot=True, cmap='Blues',fmt='g')
     plt.xlabel("Predicted class")
     plt.ylabel("True class") 
-    plt.savefig('reports/figures/cfm_predict.png')
+    plt.savefig(project_root + '/reports/figures/cfm_predict.png')
 
 
 
