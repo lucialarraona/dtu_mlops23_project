@@ -2,8 +2,14 @@
 
 - Lucía Larraona (s220492)
 - Zuzanna Rowinska (s220351)
-- Jakub Solis (s213792)
 - Karol Charylo (s220243)
+
+## 👍🏽 Update: Use our deployed model interactively! 
+
+Navigate to HuggingFace Hub and use the hosted inference API.
+https://huggingface.co/lucixls/models
+
+
 
 ## 💡 Project Goal
 
