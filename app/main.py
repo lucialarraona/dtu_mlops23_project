@@ -1,7 +1,7 @@
 from transformers import AutoModelForSequenceClassification, AutoTokenizer
 import torch
 from fastapi import FastAPI, Form
-from src.models import train_model
+
 
 
 
