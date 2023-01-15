@@ -70,7 +70,7 @@ def main(config: DictConfig):
     
     #Option 1 
     #project_root = root_path(ignore_cwd=False)
-    project_root = Path(__file__).parent.parent.parent
+    project_root = Path(__file__).parent.parent
     print(project_root)
     train_dataset = torch.load(project_root + '/data/processed/train.pth')
     valid_dataset = torch.load(project_root + '/data/processed/valid.pth')
