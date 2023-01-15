@@ -16,7 +16,7 @@ https://huggingface.co/lucixls/models
 
 
 
-============================== Project Proposal (1st week) ==================================
+============================== Project Proposal (1st week) =========================
 
 ## 💡 Project Goal
 
