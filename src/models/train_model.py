@@ -72,16 +72,16 @@ def main(config: DictConfig):
     #project_root = root_path(ignore_cwd=False)
     project_root = Path(__file__).parent.parent
     print(project_root)
-    train_dataset = torch.load(project_root + '/data/processed/train.pth')
-    valid_dataset = torch.load(project_root + '/data/processed/valid.pth')
-    test_dataset = torch.load(project_root + '/data/processed/test.pth')
+    #train_dataset = torch.load(project_root + '/data/processed/train.pth')
+    #valid_dataset = torch.load(project_root + '/data/processed/valid.pth')
+    #test_dataset = torch.load(project_root + '/data/processed/test.pth')
 
     #Option 2
     #roject_root = Path(__file__).parent.parent.parent
     #print(project_root)
-    #train_dataset = torch.load(project_root.joinpath('data', 'processed', 'train.pth'))
-    #valid_dataset = torch.load(project_root.joinpath('data', 'processed', 'valid.pth'))
-    #test_dataset = torch.load(project_root.joinpath('data', 'processed', 'test.pth'))
+    train_dataset = torch.load(str(project_root.joinpath('data', 'processed', 'train.pth')))
+    valid_dataset = torch.load(str(project_root.joinpath('data', 'processed', 'valid.pth')))
+    test_dataset = torch.load(str(project_root.joinpath('data', 'processed', 'test.pth')))
 
 
 
@@ -133,7 +133,7 @@ def main(config: DictConfig):
         warmup_steps=500,                                     # number of warmup steps for learning rate scheduler
         weight_decay=config.train.weight_decay,               # strength of weight decay
         logging_strategy= 'epoch',
-        logging_dir= project_root.joinpath('models', 'logs'),                            # directory for storing logs
+        logging_dir= str(project_root.joinpath('models', 'logs')),                            # directory for storing logs
         load_best_model_at_end=True,                          # load the best model when finished training (default metric is loss)
         metric_for_best_model = 'accuracy',
                                             
