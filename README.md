@@ -4,12 +4,19 @@
 - Zuzanna Rowinska (s220351)
 - Karol Charylo (s220243)
 
-## 👍🏽 Update: Use our deployed model interactively! 
+
+============================== Updates (3rd week) ==================================
+## 👍🏽 Use our deployed model interactively! 
 
 Navigate to HuggingFace Hub and use the hosted inference API.
 https://huggingface.co/lucixls/models
 
 
+
+
+
+
+============================== Project Proposal (1st week) ==================================
 
 ## 💡 Project Goal
 
