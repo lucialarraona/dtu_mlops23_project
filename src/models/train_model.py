@@ -68,12 +68,19 @@ def main(config: DictConfig):
     wandb.init(mode="disabled")
             
     
-    #project_root = root_path(ignore_cwd=False)
-    
-    project_root = Path(__file__).parent.parent.parent
-    train_dataset = torch.load(project_root.joinpath('data', 'processed', 'train.pth'))
-    valid_dataset = torch.load(project_root.joinpath('data', 'processed', 'valid.pth'))
-    test_dataset = torch.load(project_root.joinpath('data', 'processed', 'test.pth'))
+    #Option 1 
+    project_root = root_path(ignore_cwd=False)
+    print(project_root)
+    train_dataset = torch.load(project_root + '/data/processed/train.pth')
+    valid_dataset = torch.load(project_root + '/data/processed/valid.pth')
+    test_dataset = torch.load(project_root + '/data/processed/test.pth')
+
+    #Option 2
+    #roject_root = Path(__file__).parent.parent.parent
+    #print(project_root)
+    #train_dataset = torch.load(project_root.joinpath('data', 'processed', 'train.pth'))
+    #valid_dataset = torch.load(project_root.joinpath('data', 'processed', 'valid.pth'))
+    #test_dataset = torch.load(project_root.joinpath('data', 'processed', 'test.pth'))
 
 
 
