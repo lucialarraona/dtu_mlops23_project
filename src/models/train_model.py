@@ -42,6 +42,7 @@ from data.make_dataset import TextDataset  # import our dataset class
 
 #notebook_login()
 
+os.environ["WANDB_DISABLED"] = "true" # disable logging when using cloudbuild 
 
 log = logging.getLogger(__name__)
 @hydra.main(config_path="../config", config_name="default_config.yaml") # specify path of config file to later pass it to wandb 
@@ -149,11 +150,12 @@ def main(config: DictConfig):
     
     log.info("Finish! :D")
 
+    # Pushing it to huggingface hub (for posterior donwloading it easier)
     #trainer.push_to_hub()  # push it to the huggingface repository (cloud)
     #tokenizer.push_to_hub("lucixls/models")
 
     # Save the model and tokenizer for predict_model (locally)
-    model_path = project_root.joinpath('models', 'models_trained'),
+    model_path = str(project_root.joinpath('models', 'models_trained')),
     model.save_pretrained(model_path)
     tokenizer.save_pretrained(model_path)
 
@@ -178,7 +180,7 @@ def main(config: DictConfig):
     sns.heatmap(cm_df, annot=True, cmap='Reds',fmt='g')
     plt.xlabel("Predicted class")
     plt.ylabel("True class") 
-    plt.savefig(project_root.joinpath('reports', 'figures', 'cfm_train.png'))
+    plt.savefig(str(project_root.joinpath('reports', 'figures', 'cfm_train.png')))
 
     # Classification report
     clas_report = classification_report(labels, predictions.argmax(axis=1))

@@ -3,3 +3,5 @@ steps:
   args: ['build', '-t', 'gcr.io/wired-standard-374308/finalproject', '.']
 - name: 'gcr.io/cloud-builders/docker'
   args: ['push', 'gcr.io/wired-standard-374308/finalproject']
+options:
+  machineType: 'E2_HIGHCPU_8'
