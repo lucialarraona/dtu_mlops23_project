@@ -13,10 +13,11 @@ from transformers import (AutoModelForSequenceClassification, AutoTokenizer,
                           BertForSequenceClassification, BertTokenizerFast,
                           Trainer, TrainingArguments)
 
-sys.path.append(os.getcwd())
-print(sys.path.append(os.getcwd()))
+#sys.path.append(os.getcwd())
+#print(sys.path.append(os.getcwd()))
 
-#sys.path.insert(1, os.path.join(sys.path[0], ".."))
+sys.path.insert(1, os.path.join(sys.path[0], ".."))
+
 import argparse
 import logging
 import os
@@ -58,6 +59,8 @@ def main(model_filepath, data_filepath):
     #        group='bert-inference',
     #        #config = config, #specify config file to read the hyperparameters from 
     #        )
+
+    wandb.init(mode="disabled")
 
     parser = argparse.ArgumentParser(description="Training arguments")
     parser.add_argument("load_model_from", default="")
@@ -125,6 +128,7 @@ def main(model_filepath, data_filepath):
         }
 
     project_root = root_path(ignore_cwd=False)
+
      # Access data from processed folder (for definition of the trainer object)
     train_dataset = torch.load(project_root + '/data/processed/train.pth') 
     valid_dataset = torch.load(project_root + '/data/processed/valid.pth')

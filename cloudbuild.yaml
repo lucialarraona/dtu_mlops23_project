@@ -1,6 +1,5 @@
 steps:
 - name: 'gcr.io/cloud-builders/docker'
   args: ['build', '-t', 'gcr.io/wired-standard-374308/finalproject', '.']
-  env: ["WANDB_API_KEY= 64d2528e8d76865170c16bf804e7172bb3780c79"]
 - name: 'gcr.io/cloud-builders/docker'
   args: ['push', 'gcr.io/wired-standard-374308/finalproject']
