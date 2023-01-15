@@ -121,15 +121,16 @@ def main(config: DictConfig):
         warmup_steps=500,                                     # number of warmup steps for learning rate scheduler
         weight_decay=config.train.weight_decay,               # strength of weight decay
         logging_strategy= 'epoch',
-        logging_dir=project_root + '/models/logs',                            # directory for storing logs
+        logging_dir= project_root + '/models/logs',                            # directory for storing logs
         load_best_model_at_end=True,                          # load the best model when finished training (default metric is loss)
         metric_for_best_model = 'accuracy',
                                             
                                                               # but you can specify `metric_for_best_model` argument to change to accuracy or other metric
         logging_steps=400,                                    # log & save weights each logging_steps
         #save_steps=400,
-        report_to='wandb',                                     # report to WANDB to keep track of the metrics :) 
-        push_to_hub = True
+        report_to='wandb'                                     # report to WANDB to keep track of the metrics :) 
+        #push_to_hub = True,
+        #hub_token = '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' # shouldnt be here but oh well
     )
 
     trainer = Trainer(
@@ -145,20 +146,19 @@ def main(config: DictConfig):
     
     log.info("Finish! :D")
 
-    trainer.push_to_hub()  # push it to the huggingface repository (cloud)
-    tokenizer.push_to_hub("lucixls/models")
+    #trainer.push_to_hub()  # push it to the huggingface repository (cloud)
+    #tokenizer.push_to_hub("lucixls/models")
 
     # Save the model and tokenizer for predict_model (locally)
-    #model_path = '/zhome/9c/7/174708/dtu_mlops23_project/models/model_trained'
-    #model.save_pretrained(model_path)
-    #tokenizer.save_pretrained(model_path)
+    model_path = project_root + '/models/models_trained',
+    model.save_pretrained(model_path)
+    tokenizer.save_pretrained(model_path)
 
 
 
 
     # ------------------------------ Evaluation of the model----------------
     print('Evaluating on test data...')
-    # WE DONT CALL TRAINER.TRAIN() we call TRAINER.EVALUATE()
     trainer.evaluate()
 
     # Obtain predictions on test set (trainer.predict())
@@ -172,7 +172,7 @@ def main(config: DictConfig):
     sns.heatmap(matrix, annot=True, cmap='Reds',fmt='g')
     plt.xlabel("Predicted class")
     plt.ylabel("True class") 
-    plt.savefig(project_root + 'reports/figures/cfm_train.png')
+    plt.savefig(project_root + '/reports/figures/cfm_train.png')
 
     # Classification report
     clas_report = classification_report(labels, predictions.argmax(axis=1))

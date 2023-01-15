@@ -7,8 +7,6 @@ RUN apt update && \
 
 
 WORKDIR /mlops_project
-ARG var_name 
-ENV env_var_name=$var_name
 COPY requirements.txt requirements.txt
 RUN pip install -r requirements.txt --no-cache-dir
 RUN pip install get-project-root
