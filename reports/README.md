@@ -368,8 +368,7 @@ We used the following services: Engine, Bucket, Cloud Build, Container registry 
 >
 > Answer:
 
---- question 18 fill here ---
-For our project we created an instance with an attached GPU to be able to run our model training (the BERT transformer is a very large model). The hardware used in said VM-instance is and NVIDIA-T4 GPU and 80 GB of disk memory. For our model run we tried two different approaches: directly copying the repository and running the script, and pulling an image from our Container Registry. 
+For our project we created an instance with an attached GPU to be able to run our model training (the BERT transformer is a very large model). The hardware used in said VM-instance is and NVIDIA-T4 GPU and 200 GB of disk memory. For our model run we tried two different approaches: directly copying the repository and running the script, and pulling an image from our Container Registry. 
 
 ### Question 19
 
@@ -476,7 +475,8 @@ We used around 100$ in credits summing up the costs for the different members. V
 >
 > Answer:
 
---- question 26 fill here ---
+The biggest challenge in our project was building and managing the docker images. The image itself is aroun 8GB and it took a very long time to build (around 10-15 minutes) even with a high-speed CPU. Even when verified that the steps to pull the data (dvc pull) while building the image were correct (approved by the teacher) it still couldn't pull the data and therefore the image can't run properly.
+Apart from that, the rest of the steps where able to be performed smoothly. Tracking with wandb, unittesting, linting, and deployement in both FastAPI and using cloud functions.  
 
 ### Question 27
 
