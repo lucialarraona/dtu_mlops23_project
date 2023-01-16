@@ -352,7 +352,7 @@ From the cookiecutter template we have filled out the src/models, src/data, data
 >
 > Answer:
 
-We used the following services: Engine, Bucket and Cloud Build and Container registry, and Cloud Functions for deployement. Engine is used to create Virtual machine instances. Bucket is a storage space in the cloud. Cloud build is used to build the docker images, and if succesful, store them in Container registry. 
+We used the following services: Engine, Bucket, Cloud Build, Container registry and Cloud Functions. Engine is used to create Virtual Machine instances from which we can work as our own computer with more powerful hardware. Bucket is a remote storage space. Cloud build is used to build the docker images of our projects, when the build is succesful they are stored in the Container registry, which is just a storage space in the cloud specifically defined for storing docker images.
 
 ### Question 18
 
@@ -367,8 +367,7 @@ We used the following services: Engine, Bucket and Cloud Build and Container reg
 >
 > Answer:
 
---- question 18 fill here ---
-We created an instance with GPU to be able to run our models in the cloud.
+For our project we created an instance with an attached GPU to be able to run our model training (the BERT transformer is a very large model). The hardware used in said VM-instance is and NVIDIA-T4 GPU and 200 GB of disk memory. For our model run we tried two different approaches: directly copying the repository and running the script, and pulling an image from our Container Registry. 
 
 ### Question 19
 
@@ -377,8 +376,7 @@ We created an instance with GPU to be able to run our models in the cloud.
 >
 > Answer:
 
---- question 19 fill here ---
-We created a bucket to store our project data and added a pointer to be able to download it with dvc pull.
+![Our GCP Buckets](figures/bucket_gcp.png)
 ### Question 20
 
 > **Upload one image of your GCP container registry, such that we can see the different images that you have stored.**
@@ -386,9 +384,7 @@ We created a bucket to store our project data and added a pointer to be able to 
 >
 > Answer:
 
---- question 20 fill here ---
-We used both with a trigger so that everytime we pushed to the main branch, a new image of the project is created and stored. 
-
+![Our GCP Container Registry](figures/container_registry_gcp.png)
 ### Question 21
 
 > **Upload one image of your GCP cloud build history, so we can see the history of the images that have been build in**
@@ -396,7 +392,7 @@ We used both with a trigger so that everytime we pushed to the main branch, a ne
 >
 > Answer:
 
---- question 21 fill here ---
+![Our GCP Cloud Build History](figures/cloudbuild_gcp.png)
 
 ### Question 22
 
@@ -412,7 +408,7 @@ We used both with a trigger so that everytime we pushed to the main branch, a ne
 >
 > Answer:
 
-For deployment we wrapped our model into application, which returns predicted label of the sentence given by a user, we created it using FastAPI. We first deployed the app locally with uvicorn framework, which worked. Afterwards we deployed it in the cloud, using functions. To invoke the service an user would call*
+For deployment we wrapped our model into application, which returns predicted label of the sentence given by a user, we created it using FastAPI. We first deployed the app locally with uvicorn framework, which worked. Afterwards we deployed it in the cloud, using Cloud Functions. To invoke the service an user would call*
 `curl -m 310 -X POST https://europe-west1-mlops-374314.cloudfunctions.net/mlops-project -H "Content-Type: application/json" -d '{"text": "user text to test"}'`
 
 ### Question 23
@@ -442,7 +438,7 @@ We did not manage to implement monitoring. We would like to have monitoring impl
 >
 > Answer:
 
---- question 24 fill here ---
+We used around 100$ in credits summing up the costs for the different members. VM instances with GPUs turned out to be the most expensive resource while remote storage in the buckets was very cheap. 
 
 ## Overall discussion of project
 
@@ -477,7 +473,8 @@ We did not manage to implement monitoring. We would like to have monitoring impl
 >
 > Answer:
 
---- question 26 fill here ---
+The biggest challenge in our project was building and managing the docker images. The image itself is aroun 8GB and it took a very long time to build (around 10-15 minutes) even with a high-speed CPU. Even when verified that the steps to pull the data (dvc pull) while building the image were correct (approved by the teacher) it still couldn't pull the data and therefore the image can't run properly.
+Apart from that, the rest of the steps where able to be performed smoothly. Tracking with wandb, unittesting, linting, and deployement in both FastAPI and using cloud functions.  
 
 ### Question 27
 

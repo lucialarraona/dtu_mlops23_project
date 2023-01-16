@@ -16,7 +16,7 @@ from transformers import (AutoModelForSequenceClassification, AutoTokenizer,
                           Trainer, TrainingArguments)
 
 from get_project_root import root_path
-
+import parser
 
 #sys.path.append(os.getcwd())
 #print(sys.path.append(os.getcwd()))
@@ -42,7 +42,7 @@ from data.make_dataset import TextDataset  # import our dataset class
 
 #notebook_login()
 
-os.environ["WANDB_DISABLED"] = "true" # disable logging when using cloudbuild 
+#os.environ["WANDB_DISABLED"] = "true" # disable logging when using cloudbuild 
 
 log = logging.getLogger(__name__)
 @hydra.main(config_path="../config", config_name="default_config.yaml") # specify path of config file to later pass it to wandb 
@@ -56,25 +56,23 @@ def main(config: DictConfig):
                 None 
     """
 
-    # Initiate wandb logging
-    #wandb.init(project='dtu_mlops', 
-    #        entity='lucialarraona',
-    #        name="bert-test-8",
-    #        tags=["test"],
-    #        group='bert',
-    #        config = config, #specify config file to read the hyperparameters from 
-    #       )
+    #parser.add_argument('--learning_rate', type=float, help='Learning rate for the model')
 
-    wandb.init(mode="disabled")
+    # Initiate wandb logging
+    wandb.init(project='dtu_mlops', 
+            entity='lucialarraona',
+            tags=["gcp-run"],
+            group='bert',
+            config = config, #specify config file to read the hyperparameters from 
+           )
+
+    #wandb.init(mode="disabled")
             
     
     #Option 1 
     #project_root = root_path(ignore_cwd=False)
     project_root = Path(__file__).parent.parent.parent
     print(project_root)
-    #train_dataset = torch.load(project_root + '/data/processed/train.pth')
-    #valid_dataset = torch.load(project_root + '/data/processed/valid.pth')
-    #test_dataset = torch.load(project_root + '/data/processed/test.pth')
 
     #Option 2
     #roject_root = Path(__file__).parent.parent.parent
@@ -139,8 +137,8 @@ def main(config: DictConfig):
                                             
                                                               # but you can specify `metric_for_best_model` argument to change to accuracy or other metric
         logging_steps=400,                                    # log & save weights each logging_steps
-        #save_steps=400,
-        #report_to='wandb'                                     # report to WANDB to keep track of the metrics :) 
+        save_steps=400,
+        report_to='wandb'                                     # report to WANDB to keep track of the metrics :) 
         #push_to_hub = True,
         #hub_token = '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' # shouldnt be here but oh well
     )
@@ -163,9 +161,9 @@ def main(config: DictConfig):
     #tokenizer.push_to_hub("lucixls/models")
 
     # Save the model and tokenizer for predict_model (locally)
-    model_path = str(project_root.joinpath('models', 'models_trained')),
-    model.save_pretrained(model_path)
-    tokenizer.save_pretrained(model_path)
+    
+    model.save_pretrained(str(project_root.joinpath('models', 'models_trained')))
+    tokenizer.save_pretrained(str(project_root.joinpath('models', 'models_trained')))
 
 
 
