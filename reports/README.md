@@ -105,18 +105,18 @@ end of the project.
 >
 > Answer:
 
---- question 1 fill here ---
+44
 
 ### Question 2
 > **Enter the study number for each member in the group**
 >
 > Example:
 >
-> *sXXXXXX, sXXXXXX, sXXXXXX*
+> *sXXXXXX, sXXXXXX*
 >
 > Answer:
 
---- question 2 fill here ---
+*s220492, s220351, s220243*
 
 ### Question 3
 > **What framework did you choose to work with and did it help you complete the project?**
