@@ -148,7 +148,7 @@ end of the project.
 >
 > Answer:
 
---- question 4 fill here ---
+We used the pyreq package, which creates the requirements.txt file, with list of project dependencies. We were also developing our code in a separate conda environment, we coudl get the list of dependencies by using *pip freeze* command. Copy of our development environment is created when running *pip install requirements.txt* command. It's recommended to first create new python environment (e.g. with conda create --name my_env), and install dependencies afterwards.
 
 ### Question 5
 
@@ -163,7 +163,8 @@ end of the project.
 > *experiments.*
 > Answer:
 
---- question 5 fill here ---
+From the cookiecutter template we have filled out the src/models, src/data, data, models, docs folder. We have removed the notebooks and references folders*
+> *because we did not created notebooks in our project. We have added a test folder that contains test scripts of our model, an app folder with script for deployment of our app with FastAPI and reports folder which contains this report*
 
 ### Question 6
 
@@ -174,7 +175,7 @@ end of the project.
 >
 > Answer:
 
---- question 6 fill here ---
+**DID WE? SHOULD WE?** In large project code is usually developed by many different people, rules for code quality and format are helping to keep it coherent, in order to make it more clear and easy to understand 
 
 ## Version control
 
@@ -410,7 +411,9 @@ end of the project.
 >
 > Answer:
 
---- question 22 fill here ---
+*For deployment we wrapped our model into application, which returns predicted label of the sentence given by a user, we created it using FastAPI. We first deployed the app locally with uvicorn framework, which*
+*worked. Afterwards we deployed it in the cloud, using functions. To invoke the service an user would call*
+*`curl -m 310 -X POST https://europe-west1-mlops-374314.cloudfunctions.net/mlops-project -H "Content-Type: application/json" -d '{"text": "user text to test"}'`*
 
 ### Question 23
 
@@ -425,7 +428,8 @@ end of the project.
 >
 > Answer:
 
---- question 23 fill here ---
+ *We did not manage to implement monitoring. We would like to have monitoring implemented such that over time we could*
+*measure ... and ... that would inform us about this ... behaviour of our application.*
 
 ### Question 24
 
