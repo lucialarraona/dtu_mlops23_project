@@ -42,7 +42,7 @@ from data.make_dataset import TextDataset  # import our dataset class
 
 #notebook_login()
 
-os.environ["WANDB_DISABLED"] = "true" # disable logging when using cloudbuild 
+#os.environ["WANDB_DISABLED"] = "true" # disable logging when using cloudbuild 
 
 log = logging.getLogger(__name__)
 @hydra.main(config_path="../config", config_name="default_config.yaml") # specify path of config file to later pass it to wandb 
@@ -57,24 +57,21 @@ def main(config: DictConfig):
     """
 
     # Initiate wandb logging
-    #wandb.init(project='dtu_mlops', 
-    #        entity='lucialarraona',
-    #        name="bert-test-8",
-    #        tags=["test"],
-    #        group='bert',
-    #        config = config, #specify config file to read the hyperparameters from 
-    #       )
+    wandb.init(project='dtu_mlops', 
+            entity='lucialarraona',
+            name="bert-test-8",
+            tags=["gcp-run"],
+            group='bert',
+            config = config, #specify config file to read the hyperparameters from 
+           )
 
-    wandb.init(mode="disabled")
+    #wandb.init(mode="disabled")
             
     
     #Option 1 
     #project_root = root_path(ignore_cwd=False)
     project_root = Path(__file__).parent.parent.parent
     print(project_root)
-    #train_dataset = torch.load(project_root + '/data/processed/train.pth')
-    #valid_dataset = torch.load(project_root + '/data/processed/valid.pth')
-    #test_dataset = torch.load(project_root + '/data/processed/test.pth')
 
     #Option 2
     #roject_root = Path(__file__).parent.parent.parent
@@ -139,8 +136,8 @@ def main(config: DictConfig):
                                             
                                                               # but you can specify `metric_for_best_model` argument to change to accuracy or other metric
         logging_steps=400,                                    # log & save weights each logging_steps
-        #save_steps=400,
-        #report_to='wandb'                                     # report to WANDB to keep track of the metrics :) 
+        save_steps=400,
+        report_to='wandb'                                     # report to WANDB to keep track of the metrics :) 
         #push_to_hub = True,
         #hub_token = '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' # shouldnt be here but oh well
     )
