@@ -56,7 +56,7 @@ def main(config: DictConfig):
     PROJECT_ID = "713387486048"
 
     secret_id = "WANDB"
-    resource_name = f"projects/{PROJECT_ID}/secrets/{secret_id}/versions/latest"
+    resource_name = f"projects/{PROJECT_ID}/secrets/{secret_id}/versions/1"
     response = client.access_secret_version(name=resource_name)
     api_key = response.payload.data.decode("UTF-8")
     os.environ["WANDB_API_KEY"] = api_key
