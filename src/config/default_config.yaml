@@ -1,4 +1,5 @@
 defaults:
    # - model: model_config.yaml
     - train: train_config.yaml
+    - exp1: exp1_config.yaml
    # - predict: predict_config.yaml
