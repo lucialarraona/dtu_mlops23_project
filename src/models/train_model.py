@@ -53,7 +53,7 @@ def main(config: DictConfig):
 
     #parser.add_argument('--learning_rate', type=float, help='Learning rate for the model')
     client = secretmanager.SecretManagerServiceClient()
-    PROJECT_ID = "wired-standard-374308"
+    PROJECT_ID = "713387486048"
 
     secret_id = "WANDB"
     resource_name = f"projects/{PROJECT_ID}/secrets/{secret_id}/versions/latest"
