@@ -16,7 +16,7 @@ from transformers import (AutoModelForSequenceClassification, AutoTokenizer,
                           Trainer, TrainingArguments)
 
 from get_project_root import root_path
-
+import parser
 
 #sys.path.append(os.getcwd())
 #print(sys.path.append(os.getcwd()))
@@ -56,10 +56,11 @@ def main(config: DictConfig):
                 None 
     """
 
+    #parser.add_argument('--learning_rate', type=float, help='Learning rate for the model')
+
     # Initiate wandb logging
     wandb.init(project='dtu_mlops', 
             entity='lucialarraona',
-            name="bert-test-9",
             tags=["gcp-run"],
             group='bert',
             config = config, #specify config file to read the hyperparameters from 
