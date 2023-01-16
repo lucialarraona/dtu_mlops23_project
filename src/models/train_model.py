@@ -10,17 +10,14 @@ import numpy as np
 import torch
 from dotenv import find_dotenv, load_dotenv
 from sklearn.metrics import accuracy_score, precision_recall_fscore_support
-#from transformers.file_utils import is_tf_available, is_torch_available, is_torch_tpu_available
 from transformers import (AutoModelForSequenceClassification, AutoTokenizer,
                           BertForSequenceClassification, BertTokenizerFast,
                           Trainer, TrainingArguments)
 
 from get_project_root import root_path
 import parser
+from google.cloud import secretmanager
 
-#sys.path.append(os.getcwd())
-#print(sys.path.append(os.getcwd()))
-#sys.path.append('..')
 
 sys.path.insert(1, os.path.join(sys.path[0], ".."))
 print(sys.path.insert(1, os.path.join(sys.path[0], "..")))
@@ -40,8 +37,6 @@ from sklearn.metrics import (accuracy_score, classification_report,
 import wandb
 from data.make_dataset import TextDataset  # import our dataset class
 
-#notebook_login()
-
 #os.environ["WANDB_DISABLED"] = "true" # disable logging when using cloudbuild 
 
 log = logging.getLogger(__name__)
@@ -57,7 +52,14 @@ def main(config: DictConfig):
     """
 
     #parser.add_argument('--learning_rate', type=float, help='Learning rate for the model')
+    client = secretmanager.SecretManagerServiceClient()
+    PROJECT_ID = "wired-standard-374308"
 
+    secret_id = "WANDB"
+    resource_name = f"projects/{PROJECT_ID}/secrets/{secret_id}/versions/latest"
+    response = client.access_secret_version(name=resource_name)
+    api_key = response.payload.data.decode("UTF-8")
+    os.environ["WANDB_API_KEY"] = api_key
     # Initiate wandb logging
     wandb.init(project='dtu_mlops', 
             entity='lucialarraona',
@@ -69,14 +71,8 @@ def main(config: DictConfig):
     #wandb.init(mode="disabled")
             
     
-    #Option 1 
-    #project_root = root_path(ignore_cwd=False)
     project_root = Path(__file__).parent.parent.parent
     print(project_root)
-
-    #Option 2
-    #roject_root = Path(__file__).parent.parent.parent
-    #print(project_root)
     train_dataset = torch.load(str(project_root.joinpath('data', 'processed', 'train.pth')))
     valid_dataset = torch.load(str(project_root.joinpath('data', 'processed', 'valid.pth')))
     test_dataset = torch.load(str(project_root.joinpath('data', 'processed', 'test.pth')))
