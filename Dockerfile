@@ -27,7 +27,7 @@ COPY models/ models/
 # ...
 COPY Makefile Makefile
 COPY entrypoint.sh entrypoint.sh
-RUN chmod +x entrypoint.sh
-CMD ["entrypoint.sh"]
+#RUN chmod +x entrypoint.sh
+ENTRYPOINT ["entrypoint.sh"]
 
 #ENTRYPOINT ["python", "-u", "src/models/train_model.py"]

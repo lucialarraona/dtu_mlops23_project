@@ -1,7 +1,5 @@
 #!/bin/bash
-
-# Run dvc pull command
-make dvc-pull
-
-# Run train script
-make train
+# exit when any command fails
+set -e
+dvc pull -f
+python -u src/models/train_model.py
