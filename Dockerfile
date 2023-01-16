@@ -8,6 +8,7 @@ RUN apt update && \
     apt clean && rm -rf /var/lib/apt/lists/*
 
 COPY requirements.txt requirements.txt
+COPY data.dvc data.dvc
 # Only one run command, more efficient
 RUN pip install -r requirements.txt --no-cache-dir && \
     pip install get-project-root wandb "dvc[gs]" && \
@@ -19,7 +20,6 @@ RUN pip install -r requirements.txt --no-cache-dir && \
 RUN ls -al /mlops_project
 
 # Copy folders necessary
-COPY data.dvc data.dvc
 COPY setup.py setup.py
 COPY src/ src/
 COPY models/ models/
