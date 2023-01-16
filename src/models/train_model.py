@@ -59,7 +59,7 @@ def main(config: DictConfig):
     # Initiate wandb logging
     wandb.init(project='dtu_mlops', 
             entity='lucialarraona',
-            name="bert-test-8",
+            name="bert-test-9",
             tags=["gcp-run"],
             group='bert',
             config = config, #specify config file to read the hyperparameters from 
@@ -160,9 +160,9 @@ def main(config: DictConfig):
     #tokenizer.push_to_hub("lucixls/models")
 
     # Save the model and tokenizer for predict_model (locally)
-    model_path = str(project_root.joinpath('models', 'models_trained')),
-    model.save_pretrained(model_path)
-    tokenizer.save_pretrained(model_path)
+    
+    model.save_pretrained(str(project_root.joinpath('models', 'models_trained')))
+    tokenizer.save_pretrained(str(project_root.joinpath('models', 'models_trained')))
 
 
 
