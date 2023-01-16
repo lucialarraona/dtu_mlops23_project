@@ -378,7 +378,7 @@ For our project we created an instance with an attached GPU to be able to run ou
 >
 > Answer:
 
-[Our GCP Buckets](figures/bucket_gcp.png)
+![Our GCP Buckets](figures/bucket_gcp.png)
 ### Question 20
 
 > **Upload one image of your GCP container registry, such that we can see the different images that you have stored.**
@@ -386,7 +386,7 @@ For our project we created an instance with an attached GPU to be able to run ou
 >
 > Answer:
 
-[Our GCP Container Registry](figures/container_registry_gcp.png)
+![Our GCP Container Registry](figures/container_registry_gcp.png)
 ### Question 21
 
 > **Upload one image of your GCP cloud build history, so we can see the history of the images that have been build in**
@@ -394,7 +394,7 @@ For our project we created an instance with an attached GPU to be able to run ou
 >
 > Answer:
 
-[Our GCP Cloud Build History](figures/cloudbuild_gcp.png)
+![Our GCP Cloud Build History](figures/cloudbuild_gcp.png)
 
 ### Question 22
 
