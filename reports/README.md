@@ -352,7 +352,7 @@ end of the project.
 >
 > Answer:
 
---- question 17 fill here ---
+We used the following services: Engine, Bucket and Cloud Build and Container registry, and Cloud Functions for deployement. Engine is used to create Virtual machine instances. Bucket is a storage space in the cloud. Cloud build is used to build the docker images, and if succesful, store them in Container registry. 
 
 ### Question 18
 
@@ -368,6 +368,7 @@ end of the project.
 > Answer:
 
 --- question 18 fill here ---
+We created an instance with GPU to be able to run our models in the cloud.
 
 ### Question 19
 
@@ -377,7 +378,7 @@ end of the project.
 > Answer:
 
 --- question 19 fill here ---
-
+We created a bucket to store our project data and added a pointer to be able to download it with dvc pull.
 ### Question 20
 
 > **Upload one image of your GCP container registry, such that we can see the different images that you have stored.**
@@ -386,6 +387,7 @@ end of the project.
 > Answer:
 
 --- question 20 fill here ---
+We used both with a trigger so that everytime we pushed to the main branch, a new image of the project is created and stored. 
 
 ### Question 21
 
