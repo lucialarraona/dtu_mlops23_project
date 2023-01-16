@@ -15,7 +15,7 @@ RUN pip install -r requirements.txt --no-cache-dir && \
     pip install get-project-root wandb "dvc[gs]" && \
     dvc init --no-scm && \
     dvc remote add -d storage gs://mlops-project-data-44/ && \
-    dvc pull -f --v
+    dvc pull -f -v
 
 #For debugging, not in final dockerfile
 RUN ls -al /mlops_project
