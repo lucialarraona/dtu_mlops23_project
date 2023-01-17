@@ -276,7 +276,7 @@ To keep track of the data versions (in this project only minor fixes, but on the
 
 We used Hydra and different config files. To integrate it we added the decorator before our main function in train_mmodel.py and we referenced a default config file in the hydra decorator. To access the different values we replaced them inside the funcion by callign config.PARAMETER_NAME. With this setup it is possible to change the different hyperparemters from the command line adding the corresponding arguments as follows:
 
-´python train_model.py train.lr= 0.01 train.epochs=2´
+`python train_model.py train.lr= 0.01 train.epochs=2`
 
 ### Question 13
 
