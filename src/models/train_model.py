@@ -154,11 +154,8 @@ def main(config: DictConfig):
     #tokenizer.push_to_hub("lucixls/models")
 
     # Save the model and tokenizer for predict_model (locally)
-    
     model.save_pretrained(str(project_root.joinpath('models', 'models_trained')))
     tokenizer.save_pretrained(str(project_root.joinpath('models', 'models_trained')))
-
-
 
 
     # ------------------------------ Evaluation of the model----------------
