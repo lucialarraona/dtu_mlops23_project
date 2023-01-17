@@ -116,7 +116,7 @@ end of the project.
 >
 > Answer:
 
-*s220492, s220351, s220243*
+s220492, s220351, s220243
 
 ### Question 3
 > **What framework did you choose to work with and did it help you complete the project?**
@@ -161,7 +161,7 @@ We used the *pyreq* package, which creates the requirements.txt file, with list 
 > *From the cookiecutter template we have filled out the ... , ... and ... folder. We have removed the ... folder*
 > *because we did not use any ... in our project. We have added an ... folder that contains ... for running our*
 > *experiments.*
-> Answer:
+> Answer: 
 
 The overall structure of our project can be seen at the bottom of our readme file in the repository. From the cookiecutter template we have filled out the src/models, src/data, data, models, docs folder. Inside de src/ folder we have added a config folder which contains all .yaml files for our experiments. We have removed the notebooks and references folders because we did not created notebooks in our project. We have added a test folder that contains test scripts of our model to be sincronized with github actions, and an app folder with scripts for deployment of our app with FastAPI. The reports folder which contains this report and the figures folder inside with all pictures.
 
@@ -174,7 +174,7 @@ The overall structure of our project can be seen at the bottom of our readme fil
 >
 > Answer:
 
-**DID WE? SHOULD WE?** In large project code is usually developed by many different people, rules for code quality and format are helping to keep it coherent, in order to make it more clear and easy to understand.
+DID WE? SHOULD WE? In large project code is usually developed by many different people, rules for code quality and format are helping to keep it coherent, in order to make it more clear and easy to understand.
 
 ## Version control
 
@@ -291,7 +291,7 @@ We used Hydra and different config files. To integrate it we added the decorator
 >
 > Answer:
 
-We made use of config files. When an experiment runs, the hyperparameters that have been called are stored in the config file designed for the experiment. We also created a hierarchy where the default_config.yaml would reference the other experiment config files and so on. 
+We made use of config files. When an experiment runs, the hyperparameters that have been called are stored in the config file designed for the experiment. We also created a hierarchy where the default_config.yaml would reference the other experiment config files and so on (see it below). In case of overriding some of the hyperparameters on the command line we ensure there is no information loss by tracking the experiment also with WandB. This API helps as save the hyperparameters used for every run, among other metrics. To reproduce an experiment one would only have to choose the appropiate .yaml file and reference it with the hydra decorator: `@hydra.main(config_path="../config", config_name="CHOSEN_EXPERIMENT_TO_REPRODUCE.yaml")` 
 
     ├── config
     │ ├── default_config.yaml        <- references the other config
@@ -301,7 +301,6 @@ We made use of config files. When an experiment runs, the hyperparameters that h
     │   │   └── exp1_config.yaml    
     │
 
- In case of overriding some of the hyperparameters on the command line we ensure there is no information loss by tracking the experiment with WandB. This API helps as save the hyperparameters used for every run, among other metrics. 
 
 ### Question 14
 
@@ -317,13 +316,12 @@ We made use of config files. When an experiment runs, the hyperparameters that h
 > *As seen in the second image we are also tracking ... and ...*
 >
 > Answer:
-![Figure1](figures/wandb1.png)
+
 As seen in the first picture, and given our project aimed for a multiclass classification, we have tracked accuracy, precision, f1, and recall for evaluation and loss and learning rate for training. Wandb also includes some system metrics, which are useful to also explore the hardware performance during the experiment. 
-
-![Figure2](figures/wandb2.png)
 All of our runs in this case are grouped under the name 'bert' given the possibility to add different experiments with other transformers and then, as seen in figure 2, we can track groups of experiments in parallel with the same metrics.
-
 We considered the possibility of adding sweeps, however, we found a good combination of hyperparameters after only 10 experiments and we discarded it for this project. The procedure would have been the following: create a config file but  with a dictionary of values for each hyperparamenter to try, and then start the agent so that it created random combinations of them for each run.
+![Figure1](figures/wandb1.png)
+![Figure2](figures/wandb2.png)
 
 ### Question 15
 
@@ -338,7 +336,7 @@ We considered the possibility of adding sweeps, however, we found a good combina
 >
 > Answer:
 
---- question 15 fill here ---
+For our project we decided to create one docker image for training. The image buildin is automated with Cloud build so that everytime we push code to the main branch of the project repository it builds a new image with a :latest tag. To run our image the user would first need a machine with GPU, then would need to pull the image doing `docker pull gcr.io/wired-standard-374308/finalproject:latest` and finally, run the image by using `docker run gcr.io/wired-standard-374308/finalproject:latest`. The link to the docker file is <https://github.com/lucialarraona/dtu_mlops23_project/blob/main/Dockerfile>
 
 ### Question 16
 
@@ -443,7 +441,6 @@ Additionally, since we have been using the HuggingFace library for the whole pro
 > *measure ... and ... that would inform us about this ... behaviour of our application.*
 >
 > Answer:
-
 We implemented monitoring, or at least we setup the application. However, we would have liked to have time to design a dashboard such that over time we could measure the performance when invoking the cloud function for inference.
 
 ### Question 24
@@ -457,7 +454,6 @@ We implemented monitoring, or at least we setup the application. However, we wou
 > *costing the most was ... due to ...*
 >
 > Answer:
-
 We used around 100$ in credits summing up the costs for the different members. Virtual Machine instances with attached GPUs turned out to be the most expensive resource while for example, remote storage in the buckets was very cheap. 
 
 ## Overall discussion of project
@@ -479,7 +475,7 @@ We used around 100$ in credits summing up the costs for the different members. V
 >
 > Answer:
 
---- question 25 fill here ---
+DIAGRAM
 
 ### Question 26
 
@@ -492,7 +488,6 @@ We used around 100$ in credits summing up the costs for the different members. V
 > *The biggest challenges in the project was using ... tool to do ... . The reason for this was ...*
 >
 > Answer:
-
 The biggest challenge in our project was building and managing the docker images. The image itself is aroun 8GB and it took a very long time to build (around 10-15 minutes) even with a high-speed CPU. Even when verified that the steps to pull the data (dvc pull) while building the image were correct (approved by the teacher) it still couldn't pull the data and therefore the image can't run properly.
 Apart from that, the rest of the steps where able to be performed smoothly. Tracking with wandb, unittesting, linting, and deployement in both FastAPI and using cloud functions was very exciting to setup and see it worked. 
 
@@ -510,5 +505,7 @@ Apart from that, the rest of the steps where able to be performed smoothly. Trac
 > *All members contributed to code by...*
 >
 > Answer:
-
---- question 27 fill here ---
+- Student s220492 was in charge of setting up initial cookie cutter structure, creating the model (train and predict script), hydra setup, wandb logging and docker files.
+- Student s220... was in charge of creating make_dataset.py, model deployement and monitoring
+- Student s22... was in charge of setting up DVC, unittesting, linting...
+All members contributed to different parts of the code while debugging. 
