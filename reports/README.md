@@ -479,7 +479,7 @@ We used around 100$ in credits summing up the costs for the different members. V
 >
 > Answer:
 
-![Overview Diagram](reports/figures/overview_mlops.png)
+![Overview Diagram](figures/overview_mlops.png)
 The starting point of the diagram is the local setup, where based on the cookie cutter template we build our final project structure. In order to build our application for sentiment detection on text, we first created a specific conda environment which had all the requirements for this project installed (isolating and resolving future dependencies conflicts). Secondly, we used the the Transformers framework provided by Huggingface, as well as their functions for training and evaluation which are built using pytorch and pytorch lightning (this way we ensured to minimise boilerplate). For experiment tracking and logging, we made used of both Hydra (for the config files) and Weights and Biases for logging and tracking. To ensure correct data version control and introducing the cloud, we made use of DVC and GCP cloud storage to remotely store and keep track of our data files without loosing any of the previous versioning. 
 The source code for the project is hosted in a github repository, which helped us with version control, as well as well with automation of testing and linting. 
 Using the github repository also helped to automatically trigger the cloud build, so that everytime we pushed code to the main branch of the project it will generate an image of the project, conteinarizing the application automatically, and storing that image in the container registry. 
