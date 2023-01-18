@@ -116,7 +116,7 @@ end of the project.
 >
 > Answer:
 
-*s220492, s220351, s220243*
+s220492, s220351, s220243
 
 ### Question 3
 > **What framework did you choose to work with and did it help you complete the project?**
@@ -161,9 +161,9 @@ We used the *pyreq* package, which creates the requirements.txt file, with list 
 > *From the cookiecutter template we have filled out the ... , ... and ... folder. We have removed the ... folder*
 > *because we did not use any ... in our project. We have added an ... folder that contains ... for running our*
 > *experiments.*
-> Answer:
+> Answer: 
 
-From the cookiecutter template we have filled out the src/models, src/data, data, models, docs folder. We have removed the notebooks and references folders because we did not created notebooks in our project. We have added a test folder that contains test scripts of our model, an app folder with script for deployment of our app with FastAPI and reports folder which contains this report
+The overall structure of our project can be seen at the bottom of our readme file in the repository. From the cookiecutter template we have filled out the src/models, src/data, data, models, docs folder. Inside de src/ folder we have added a config folder which contains all .yaml files for our experiments. We have removed the notebooks and references folders because we did not created notebooks in our project. We have added a test folder that contains test scripts of our model to be sincronized with github actions, and an app folder with scripts for deployment of our app with FastAPI. The reports folder which contains this report and the figures folder inside with all pictures.
 
 ### Question 6
 
@@ -174,7 +174,7 @@ From the cookiecutter template we have filled out the src/models, src/data, data
 >
 > Answer:
 
-**DID WE? SHOULD WE?** In large project code is usually developed by many different people, rules for code quality and format are helping to keep it coherent, in order to make it more clear and easy to understand.
+DID WE? SHOULD WE? In large project code is usually developed by many different people, rules for code quality and format are helping to keep it coherent, in order to make it more clear and easy to understand.
 
 ## Version control
 
@@ -223,7 +223,8 @@ From the cookiecutter template we have filled out the src/models, src/data, data
 >
 > Answer:
 
---- question 9 fill here ---
+Since it was only three of us, and we designed separated tasks that included changing complete different files along the project, we didn't use branching because we didn't crash each other's work. However, in the case we were to change someone elses file, then we agreed to add a new branch to revise before merging. 
+Branches and pull requests can improve version control since they are designed to work independently of the main project branch and makes it easy to separate and clearly define different tasks for different contributors on the same script. 
 
 ### Question 10
 
@@ -238,8 +239,8 @@ From the cookiecutter template we have filled out the src/models, src/data, data
 >
 > Answer:
 
---- question 10 fill here ---
-
+We did make use of DVC in the following way: We introduced our newly downloaded kaggle dataset as raw data, and then created a make_dataset.py script that would turn the raw text into tokenized and saved it in the processed data folder. We then created a remote storage bucket in the cloud and added the link to it with `dvc add -d remote gs://mlops-bucket-project-data-44` finally we pushed the data to the bucket using `dvc push` which enables all users  to download the data from the bucket using `dvc pull`
+To keep track of the data versions (in this project only minor fixes, but on the long run a big upgrade) we added tags to our commits specifying the data version as v1.01 and so on. It helped us a lot since we no longer had to store the data in the github repo and everyone had access to the latest versions. 
 ### Question 11
 
 > **Discuss you continues integration setup. What kind of CI are you running (unittesting, linting, etc.)? Do you test**
@@ -273,7 +274,9 @@ From the cookiecutter template we have filled out the src/models, src/data, data
 >
 > Answer:
 
---- question 12 fill here ---
+We used Hydra and different config files. To integrate it we added the decorator before our main function in train_mmodel.py and we referenced a default config file in the hydra decorator. To access the different values we replaced them inside the funcion by callign config.PARAMETER_NAME. With this setup it is possible to change the different hyperparemters from the command line adding the corresponding arguments as follows:
+
+`python train_model.py train.lr= 0.01 train.epochs=2`
 
 ### Question 13
 
@@ -288,7 +291,16 @@ From the cookiecutter template we have filled out the src/models, src/data, data
 >
 > Answer:
 
---- question 13 fill here ---
+We made use of config files. When an experiment runs, the hyperparameters that have been called are stored in the config file designed for the experiment. We also created a hierarchy where the default_config.yaml would reference the other experiment config files and so on (see it below). In case of overriding some of the hyperparameters on the command line we ensure there is no information loss by tracking the experiment also with WandB. This API helps as save the hyperparameters used for every run, among other metrics. To reproduce an experiment one would only have to choose the appropiate .yaml file and reference it with the hydra decorator: `@hydra.main(config_path="../config", config_name="CHOSEN_EXPERIMENT_TO_REPRODUCE.yaml")` 
+
+    ├── config
+    │ ├── default_config.yaml        <- references the other config
+    │   ├── train                    <- folder for training config files
+    │   │   ├── train_config.yaml    
+    │   ├── exp1                     <- folder for experiment1 config files
+    │   │   └── exp1_config.yaml    
+    │
+
 
 ### Question 14
 
@@ -305,7 +317,11 @@ From the cookiecutter template we have filled out the src/models, src/data, data
 >
 > Answer:
 
---- question 14 fill here ---
+As seen in the first picture, and given our project aimed for a multiclass classification, we have tracked accuracy, precision, f1, and recall for evaluation and loss and learning rate for training. Wandb also includes some system metrics, which are useful to also explore the hardware performance during the experiment. 
+All of our runs in this case are grouped under the name 'bert' given the possibility to add different experiments with other transformers and then, as seen in figure 2, we can track groups of experiments in parallel with the same metrics.
+We considered the possibility of adding sweeps, however, we found a good combination of hyperparameters after only 10 experiments and we discarded it for this project. The procedure would have been the following: create a config file but  with a dictionary of values for each hyperparamenter to try, and then start the agent so that it created random combinations of them for each run.
+![Figure1](figures/wandb1.png)
+![Figure2](figures/wandb2.png)
 
 ### Question 15
 
@@ -320,7 +336,7 @@ From the cookiecutter template we have filled out the src/models, src/data, data
 >
 > Answer:
 
---- question 15 fill here ---
+For our project we decided to create one docker image for training. The image buildin is automated with Cloud build so that everytime we push code to the main branch of the project repository it builds a new image with a :latest tag. To run our image the user would first need a machine with GPU, then would need to pull the image doing `sudo docker pull gcr.io/wired-standard-374308/finalproject:latest` and finally, run the image by using `sudo docker run gcr.io/wired-standard-374308/finalproject:latest`. The link to the docker file is <https://github.com/lucialarraona/dtu_mlops23_project/blob/main/Dockerfile>
 
 ### Question 16
 
@@ -335,7 +351,8 @@ From the cookiecutter template we have filled out the src/models, src/data, data
 >
 > Answer:
 
---- question 16 fill here ---
+In order to perform debugging, we decided it would be an individual task given the part of the code you where in charge of. In the case of building the model itself a lot of debugging was done for tokenizing etc. We created different stop points and explored the variables. While building the docker images, we tried to print the structure of the archives by running ´ls -a´ in the image in order to find bugs. 
+The code isn't perferct, however we made sure we used the training/evaluation functions for the transformers given by HuggingFace since they are built on top of pytorch and ensure the most optimized performance for this large models. We didn't do profiling.
 
 ## Working in the cloud
 
@@ -352,7 +369,7 @@ From the cookiecutter template we have filled out the src/models, src/data, data
 >
 > Answer:
 
-We used the following services: Engine, Bucket, Cloud Build, Container registry and Cloud Functions. Engine is used to create Virtual Machine instances from which we can work as our own computer with more powerful hardware. Bucket is a remote storage space. Cloud build is used to build the docker images of our projects, when the build is succesful they are stored in the Container registry, which is just a storage space in the cloud specifically defined for storing docker images.
+We used the following services: Engine, Bucket, Cloud Build, Container registry and Cloud Functions. Engine is used to create Virtual Machine instances from which we can work as our own computer with more powerful hardware. Bucket is a remote storage space. Cloud build is used to build the docker images of our projects, and when the build is succesful they are stored in the Container registry, which is just a storage space in the cloud specifically defined for storing docker images.
 
 ### Question 18
 
@@ -367,7 +384,7 @@ We used the following services: Engine, Bucket, Cloud Build, Container registry 
 >
 > Answer:
 
-For our project we created an instance with an attached GPU to be able to run our model training (the BERT transformer is a very large model). The hardware used in said VM-instance is and NVIDIA-T4 GPU and 200 GB of disk memory. For our model run we tried two different approaches: directly copying the repository and running the script, and pulling an image from our Container Registry. 
+For our project we created an instance with an attached GPU to be able to run our model training (the BERT transformer is a very large model). The hardware used in said VM-instance is and NVIDIA-T4 GPU and 200 GB of disk memory. For our model run we tried two different approaches: directly copying the repository and running the script, and by pulling an image from our Container Registry. 
 
 ### Question 19
 
@@ -408,9 +425,10 @@ For our project we created an instance with an attached GPU to be able to run ou
 >
 > Answer:
 
-For deployment we wrapped our model into application, which returns predicted label of the sentence given by a user, we created it using FastAPI. We first deployed the app locally with uvicorn framework, which worked. Afterwards we deployed it in the cloud, using Cloud Functions. To invoke the service an user would call*
+For deployment we wrapped our model into application, which returns predicted label of the sentence given by a user, we created it using FastAPI. We first deployed the app locally with uvicorn framework, which worked correctly. Afterwards we decided to deploy it in the cloud, using Cloud Functions in order to make it acessible for everyone using the curl command with the desired text to classify. To invoke the service an user would call*
 `curl -m 310 -X POST https://europe-west1-mlops-374314.cloudfunctions.net/mlops-project -H "Content-Type: application/json" -d '{"text": "user text to test"}'`
 
+Additionally, since we have been using the HuggingFace library for the whole project, They also include and Inference API when we upload the model to their hub / sharing space. It is also public to everyone to download our model and try it our live.
 ### Question 23
 
 > **Did you manage to implement monitoring of your deployed model? If yes, explain how it works. If not, explain how**
@@ -423,8 +441,7 @@ For deployment we wrapped our model into application, which returns predicted la
 > *measure ... and ... that would inform us about this ... behaviour of our application.*
 >
 > Answer:
-
-We did not manage to implement monitoring. We would like to have monitoring implemented such that over time we could measure ... and ... that would inform us about this ... behaviour of our application.*
+We implemented monitoring, or at least we setup the application. However, we would have liked to have time to design a dashboard such that over time we could measure the performance when invoking the cloud function for inference.
 
 ### Question 24
 
@@ -437,8 +454,7 @@ We did not manage to implement monitoring. We would like to have monitoring impl
 > *costing the most was ... due to ...*
 >
 > Answer:
-
-We used around 100$ in credits summing up the costs for the different members. VM instances with GPUs turned out to be the most expensive resource while remote storage in the buckets and deploying model with cloud function was very cheap. 
+We used around 100$ in credits summing up the costs for the different members. Virtual Machine instances with attached GPUs turned out to be the most expensive resource while for example, remote storage in the buckets was very cheap. 
 
 ## Overall discussion of project
 
@@ -459,7 +475,12 @@ We used around 100$ in credits summing up the costs for the different members. V
 >
 > Answer:
 
---- question 25 fill here ---
+![Overview Diagram](reports/figures/overview_mlops.png)
+The starting point of the diagram is the local setup, where based on the cookie cutter template we build our final project structure. In order to build our application for sentiment detection on text, we first created a specific conda environment which had all the requirements for this project installed (isolating and resolving future dependencies conflicts). Secondly, we used the the Transformers framework provided by Huggingface, as well as their functions for training and evaluation which are built using pytorch and pytorch lightning (this way we ensured to minimise boilerplate). For experiment tracking and logging, we made used of both Hydra (for the config files) and Weights and Biases for logging and tracking. To ensure correct data version control and introducing the cloud, we made use of DVC and GCP cloud storage to remotely store and keep track of our data files without loosing any of the previous versioning. 
+The source code for the project is hosted in a github repository, which helped us with version control, as well as well with automation of testing and linting. 
+Using the github repository also helped to automatically trigger the cloud build, so that everytime we pushed code to the main branch of the project it will generate an image of the project, conteinarizing the application automatically, and storing that image in the container registry. 
+Making use of a VM instance in the cloud with the appropiate hardware specs to run this project, we can pull the training image from the registry and run it, which then saves the trained model in the HuggingFace Hub. 
+Finally, we developed a FastAPI application that later on was built into a cloud function, which automatically pulls the trained model from the hub and let's the end user use the model for their own purpose. 
 
 ### Question 26
 
@@ -472,9 +493,8 @@ We used around 100$ in credits summing up the costs for the different members. V
 > *The biggest challenges in the project was using ... tool to do ... . The reason for this was ...*
 >
 > Answer:
-
 The biggest challenge in our project was building and managing the docker images. The image itself is aroun 8GB and it took a very long time to build (around 10-15 minutes) even with a high-speed CPU. Even when verified that the steps to pull the data (dvc pull) while building the image were correct (approved by the teacher) it still couldn't pull the data and therefore the image can't run properly.
-Apart from that, the rest of the steps where able to be performed smoothly. Tracking with wandb, unittesting, linting, and deployement in both FastAPI and using cloud functions.  
+Apart from that, the rest of the steps where able to be performed smoothly. Tracking with wandb, unittesting, linting, and deployement in both FastAPI and using cloud functions was very exciting to setup and see it worked. 
 
 ### Question 27
 
@@ -490,5 +510,7 @@ Apart from that, the rest of the steps where able to be performed smoothly. Trac
 > *All members contributed to code by...*
 >
 > Answer:
-
---- question 27 fill here ---
+- Student s220492 was in charge of setting up initial cookie cutter structure, creating the model (train and predict script), hydra setup, wandb logging and docker files.
+- Student s220... was in charge of creating make_dataset.py, model deployement and monitoring
+- Student s22... was in charge of setting up DVC, unittesting, linting...
+All members contributed to different parts of the code while debugging. 

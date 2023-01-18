@@ -8,8 +8,12 @@
 ============================== Updates (3rd week) ==================================
 ## 👍🏽 Use our deployed model interactively! 
 
-Navigate to HuggingFace Hub and use the hosted inference API.
+- Navigate to HuggingFace Hub and use the hosted inference API.
 https://huggingface.co/lucixls/models
+
+- Or use the following command (changing the "user text to test" with your own text):
+
+`curl -m 310 -X POST https://europe-west1-mlops-374314.cloudfunctions.net/mlops-project -H "Content-Type: application/json" -d '{"text": "user text to test"}'`
 
 
 

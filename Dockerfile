@@ -14,8 +14,8 @@ COPY data.dvc data.dvc
 RUN pip install -r requirements.txt --no-cache-dir && \
     pip install get-project-root wandb "dvc[gs]" && \
     dvc init --no-scm && \
-    dvc remote add -d storage gs://mlops-project-data-44/ 
-    #dvc pull -f -v
+    dvc remote add -d storage gs://mlops-project-data-44/  && \
+    dvc pull -f -v
 
 #For debugging, not in final dockerfile
 #RUN ls -al /mlops_project
@@ -24,10 +24,10 @@ RUN pip install -r requirements.txt --no-cache-dir && \
 COPY setup.py setup.py
 COPY src/ src/
 COPY models/ models/
-# ...
+COPY reports/ reports/
 COPY Makefile Makefile
-COPY entrypoint.sh entrypoint.sh
+#COPY entrypoint.sh entrypoint.sh
 #RUN chmod +x entrypoint.sh
-ENTRYPOINT ["entrypoint.sh"]
+#ENTRYPOINT ["entrypoint.sh"]
 
-#ENTRYPOINT ["python", "-u", "src/models/train_model.py"]
+ENTRYPOINT ["python", "-u", "src/models/train_model.py"]
