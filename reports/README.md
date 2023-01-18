@@ -257,8 +257,8 @@ To keep track of the data versions (in this project only minor fixes, but on the
 
 For the Continous integration we are running unittesting. We have orginized our CI into 2 separate files: one for testing the data and one for testing the model. In particular for our test, we used pytest and the covarage libraries. We test on multiple operation systems that is: ubuntu-latest, macOS-latest and windows-latest. On top of that we are testing 2 different python versions: python 3.8 and 3.9. We used caching to speed up workflows by reusing the dependencies. We also had to add the dvc setup and dvc pull steps in our .yml file in order to get the data for the unittesting. Both one of our latest workflows and the caching can be seen in the figures below and an example of triggered workflow can be also seen here: <https://github.com/lucialarraona/dtu_mlops23_project/actions/runs/3952086681/jobs/6766742324>
 
-![githubimg1](figures/githubactions.png)
-![githubimg2](figures/githubcache.png)
+![githubimg1](figures/githubactions.PNG)
+![githubimg2](figures/githubcache.PNG)
 
 
 ## Running code and tracking experiments
