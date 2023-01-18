@@ -24,6 +24,7 @@ RUN pip install -r requirements.txt --no-cache-dir && \
 COPY setup.py setup.py
 COPY src/ src/
 COPY models/ models/
+COPY reports/ reports/
 COPY Makefile Makefile
 #COPY entrypoint.sh entrypoint.sh
 #RUN chmod +x entrypoint.sh

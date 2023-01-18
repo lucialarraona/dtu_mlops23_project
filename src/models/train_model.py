@@ -1,6 +1,3 @@
-
-# hello from hpc?
-# hello again
 import os
 import random
 import sys
@@ -16,7 +13,7 @@ from transformers import (AutoModelForSequenceClassification, AutoTokenizer,
 
 from get_project_root import root_path
 import parser
-from google.cloud import secretmanager
+#from google.cloud import secretmanager
 
 
 sys.path.insert(1, os.path.join(sys.path[0], ".."))
