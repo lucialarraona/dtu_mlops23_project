@@ -37,7 +37,7 @@ from sklearn.metrics import (accuracy_score, classification_report,
 import wandb
 from data.make_dataset import TextDataset  # import our dataset class
 
-#os.environ["WANDB_DISABLED"] = "true" # disable logging when using cloudbuild 
+os.environ["WANDB_DISABLED"] = "true" # disable logging when using cloudbuild 
 
 log = logging.getLogger(__name__)
 @hydra.main(config_path="../config", config_name="default_config.yaml") # specify path of config file to later pass it to wandb 
@@ -58,14 +58,14 @@ def main(config: DictConfig):
     #api_key = response.payload.data.decode("UTF-8")
     #os.environ["WANDB_API_KEY"] = api_key
     # Initiate wandb logging
-    wandb.init(project='dtu_mlops', 
-            entity='lucialarraona',
-            tags=["gcp-run"],
-            group='bert',
-            config = config, #specify config file to read the hyperparameters from 
-           )
+    #wandb.init(project='dtu_mlops', 
+    #        entity='lucialarraona',
+    #       tags=["gcp-run"],
+    #        group='bert',
+    #        config = config, #specify config file to read the hyperparameters from 
+    #       )
 
-    #wandb.init(mode="disabled")
+    wandb.init(mode="disabled")
             
     
     project_root = Path(__file__).parent.parent.parent
@@ -131,7 +131,7 @@ def main(config: DictConfig):
                                                               # but you can specify `metric_for_best_model` argument to change to accuracy or other metric
         logging_steps=400,                                    # log & save weights each logging_steps
         save_steps=400,
-        report_to='wandb'                                     # report to WANDB to keep track of the metrics :) 
+        #report_to='wandb'                                     # report to WANDB to keep track of the metrics :) 
         #push_to_hub = True,
         #hub_token = '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' # shouldnt be here but oh well
     )
