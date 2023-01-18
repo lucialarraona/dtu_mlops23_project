@@ -433,12 +433,12 @@ We did not manage to implement monitoring. We would like to have monitoring impl
 > Answer length: 25-100 words.
 >
 > Example:
-> *Group member 1 used ..., Group member 2 used 5$, in total ... credits was spend during development. The service*
+> *Group member 1 used ..., Group member 2 used ..., in total ... credits was spend during development. The service*
 > *costing the most was ... due to ...*
 >
 > Answer:
 
-We used around 100$ in credits summing up the costs for the different members. VM instances with GPUs turned out to be the most expensive resource while remote storage in the buckets was very cheap. 
+We used around 100$ in credits summing up the costs for the different members. VM instances with GPUs turned out to be the most expensive resource while remote storage in the buckets and deploying model with cloud function was very cheap. 
 
 ## Overall discussion of project
 
