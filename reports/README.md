@@ -336,7 +336,7 @@ We considered the possibility of adding sweeps, however, we found a good combina
 >
 > Answer:
 
-For our project we decided to create one docker image for training. The image buildin is automated with Cloud build so that everytime we push code to the main branch of the project repository it builds a new image with a :latest tag. To run our image the user would first need a machine with GPU, then would need to pull the image doing `docker pull gcr.io/wired-standard-374308/finalproject:latest` and finally, run the image by using `docker run gcr.io/wired-standard-374308/finalproject:latest`. The link to the docker file is <https://github.com/lucialarraona/dtu_mlops23_project/blob/main/Dockerfile>
+For our project we decided to create one docker image for training. The image buildin is automated with Cloud build so that everytime we push code to the main branch of the project repository it builds a new image with a :latest tag. To run our image the user would first need a machine with GPU, then would need to pull the image doing `sudo docker pull gcr.io/wired-standard-374308/finalproject:latest` and finally, run the image by using `sudo docker run gcr.io/wired-standard-374308/finalproject:latest`. The link to the docker file is <https://github.com/lucialarraona/dtu_mlops23_project/blob/main/Dockerfile>
 
 ### Question 16
 
@@ -475,7 +475,12 @@ We used around 100$ in credits summing up the costs for the different members. V
 >
 > Answer:
 
-DIAGRAM
+![Overview Diagram](reports/figures/overview_mlops.png)
+The starting point of the diagram is the local setup, where based on the cookie cutter template we build our final project structure. In order to build our application for sentiment detection on text, we first created a specific conda environment which had all the requirements for this project installed (isolating and resolving future dependencies conflicts). Secondly, we used the the Transformers framework provided by Huggingface, as well as their functions for training and evaluation which are built using pytorch and pytorch lightning (this way we ensured to minimise boilerplate). For experiment tracking and logging, we made used of both Hydra (for the config files) and Weights and Biases for logging and tracking. To ensure correct data version control and introducing the cloud, we made use of DVC and GCP cloud storage to remotely store and keep track of our data files without loosing any of the previous versioning. 
+The source code for the project is hosted in a github repository, which helped us with version control, as well as well with automation of testing and linting. 
+Using the github repository also helped to automatically trigger the cloud build, so that everytime we pushed code to the main branch of the project it will generate an image of the project, conteinarizing the application automatically, and storing that image in the container registry. 
+Making use of a VM instance in the cloud with the appropiate hardware specs to run this project, we can pull the training image from the registry and run it, which then saves the trained model in the HuggingFace Hub. 
+Finally, we developed a FastAPI application that later on was built into a cloud function, which automatically pulls the trained model from the hub and let's the end user use the model for their own purpose. 
 
 ### Question 26
 
