@@ -450,7 +450,7 @@ We implemented monitoring, or at least we setup the application. However, we wou
 > Answer length: 25-100 words.
 >
 > Example:
-> *Group member 1 used ..., Group member 2 used 5$, in total ... credits was spend during development. The service*
+> *Group member 1 used ..., Group member 2 used ..., in total ... credits was spend during development. The service*
 > *costing the most was ... due to ...*
 >
 > Answer:
