@@ -199,7 +199,7 @@ In large project code is usually developed by many different people, rules for c
 >
 > Answer:
 
---- question 7 fill here ---
+In total we have implemented 5 tests. 3 test covers the data side of our project and 2 are related to the model. This two parts of our application are the most critical ones so we decided to focus on them. In test_data script we are checking the number of samples in each dataset (train,validation and test), while test_model checks if the output of the model has a correct size and if device (cpu or cuda) was read properly.
 
 ### Question 8
 
@@ -214,7 +214,7 @@ In large project code is usually developed by many different people, rules for c
 >
 > Answer:
 
---- question 8 fill here ---
+The total code coverage of our code is 86% with 100% coverage on the scripts that are in tests/ directory. But even with coverage that high we would not trust that our code is 100% error free. Our test covers only the data and models unitesting. One can arque that our test are very simple and they may not cache errors. Nevertheless in this section we just wanted to show how the unitesting works and that we know how to use the Github actions. We simply did not have enought time to write sophisticated tess however, adding them to the existing ones is manageable.
 
 ### Question 9
 
@@ -261,7 +261,11 @@ To keep track of the data versions (in this project only minor fixes, but on the
 >
 > Answer:
 
---- question 11 fill here ---
+For the Continous integration we are running unittesting. We have orginized our CI into 2 separate files: one for testing the data and one for testing the model. In particular for our test, we used pytest and the covarage libraries. We test on multiple operation systems that is: ubuntu-latest, macOS-latest and windows-latest. On top of that we are testing 2 different python versions: python 3.8 and 3.9. We used caching to speed up workflows by reusing the dependencies. We also had to add the dvc setup and dvc pull steps in our .yml file in order to get the data for the unittesting. Both one of our latest workflows and the caching can be seen in the figures below and an example of triggered workflow can be also seen here: <https://github.com/lucialarraona/dtu_mlops23_project/actions/runs/3952086681/jobs/6766742324>
+
+![githubimg1](figures/githubactions.PNG)
+![githubimg2](figures/githubcache.PNG)
+
 
 ## Running code and tracking experiments
 
@@ -485,7 +489,7 @@ We used around 100$ in credits summing up the costs for the different members. V
 >
 > Answer:
 
-![Overview Diagram](reports/figures/overview_mlops.png)
+![Overview Diagram](figures/overview_mlops.png)
 The starting point of the diagram is the local setup, where based on the cookie cutter template we build our final project structure. In order to build our application for sentiment detection on text, we first created a specific conda environment which had all the requirements for this project installed (isolating and resolving future dependencies conflicts). Secondly, we used the the Transformers framework provided by Huggingface, as well as their functions for training and evaluation which are built using pytorch and pytorch lightning (this way we ensured to minimise boilerplate). For experiment tracking and logging, we made used of both Hydra (for the config files) and Weights and Biases for logging and tracking. To ensure correct data version control and introducing the cloud, we made use of DVC and GCP cloud storage to remotely store and keep track of our data files without loosing any of the previous versioning. 
 The source code for the project is hosted in a github repository, which helped us with version control, as well as well with automation of testing and linting. 
 Using the github repository also helped to automatically trigger the cloud build, so that everytime we pushed code to the main branch of the project it will generate an image of the project, conteinarizing the application automatically, and storing that image in the container registry. 
