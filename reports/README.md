@@ -212,7 +212,7 @@ In total we have implemented 5 tests. 3 test covers the data side of our project
 >
 > Answer:
 
-The total code coverage of our code is 86% with 100% coverage on the scripts that are in tests/ directory. But even with coverage that high we would not trust that our code is 100% error free. Our test covers only the data and models unitesting. One can arque that our test are very simple and they may not cache errors. Nevertheless in this section we just wanted to show how the unitesting works and that we know how to use the Github actions. We simply did not have enought time to write sophisticated tess however, adding them to the existing ones is manageable.
+The total code coverage of our code is 86% with 100% coverage on the scripts that are in tests/ directory. But even with coverage that high we would not trust that our code is 100% error free. Our test covers only the data and models unitesting. One can arque that our test are very simple and they may not catch errors. Nevertheless in this section we just wanted to show how the unitesting works and that we know how to use the Github actions. We simply did not have enought time to write sophisticated tess however, adding them to the existing ones is manageable.
 
 ### Question 9
 
