@@ -129,7 +129,7 @@ s220492, s220351, s220243
 >
 > Answer:
 
- We used the Transformers framework in Pytorch in our project. We used pretrained Bert tokenizer and Bert model for classification, which we fine-tuned for the project task. For training the model we used the *trainer* function from HuggingFace, dedicated for transformes.
+ We used the Transformers library, which is a third party framework built upon Pytorch in our project and provides thousands of pretrained models to perform different tasks, and is state-of-the-art in natural language processing. We chose the pretrained Bert-Base tokenizer and the Bert-Base model for text classification, which we fine-tuned for the sentiment classification task. For training the model we used the *trainer* function from HuggingFace, optimized for transformers, which includes evaluation and prediction functions for inference. To calculate the metrics during the testing phase we used the sklearn library functions, that include accuracy, precision, recall, confusion matrix  and classification report.
 
 ## Coding environment
 
@@ -178,9 +178,7 @@ The overall structure of our project can be seen at the bottom of our readme fil
 >
 > Answer:
 
-DID WE? SHOULD WE? In our scripts, we used informative comments, to make our code clear and easier to understand. 
-
-In large project code is usually developed by many different people, rules for code quality and format are helping to keep it coherent, in order to make it more clear and easy to understand.
+In our scripts, we used informative comments, to make our code clear and easier to understand. In a large project with code which is usually developed by many different people, rules for code quality and format are helping to keep it coherent, in order to make it more clear and easy to understand. When running flake8 and isort we found many warnings pointing we were not compliant to pep8 regulations (as stressed students), however we were more focused on making other tools work and just revised it at the very end of our project with no time for furhter changes.
 
 ## Version control
 
@@ -229,8 +227,8 @@ The total code coverage of our code is 86% with 100% coverage on the scripts tha
 >
 > Answer:
 
-Since it was only three of us, and we designed separated tasks that included changing complete different files along the project, we didn't use branching because we didn't crash each other's work. However, in the case we were to change someone elses file, then we agreed to add a new branch to revise before merging. 
-Branches and pull requests can improve version control since they are designed to work independently of the main project branch and makes it easy to separate and clearly define different tasks for different contributors on the same script. 
+Since it was only three of us, and we designed separated tasks that included changing complete different files along the project, we didn't use branching because we didn't crash each other's work. However, in the case we were to change someone else's files, then we agreed to add a new branch to revise before merging. 
+Branches and pull requests can improve version control since they are designed to work independently of the main project branch (production branch) and makes it easy to separate and clearly define different tasks for different contributors on the same script (developer branches). It also helps when there are two possible solutions to the same problem / fix as the owner of the repository can revise and compare both, and choose the best one. 
 
 ### Question 10
 
@@ -261,10 +259,12 @@ To keep track of the data versions (in this project only minor fixes, but on the
 >
 > Answer:
 
-For the Continous integration we are running unittesting. We have orginized our CI into 2 separate files: one for testing the data and one for testing the model. In particular for our test, we used pytest and the covarage libraries. We test on multiple operation systems that is: ubuntu-latest, macOS-latest and windows-latest. On top of that we are testing 2 different python versions: python 3.8 and 3.9. We used caching to speed up workflows by reusing the dependencies. We also had to add the dvc setup and dvc pull steps in our .yml file in order to get the data for the unittesting. Both one of our latest workflows and the caching can be seen in the figures below and an example of triggered workflow can be also seen here: <https://github.com/lucialarraona/dtu_mlops23_project/actions/runs/3952086681/jobs/6766742324>
+For the Continous integration we are running unittesting. We have orginized our Continuous Integration into 2 separate test files: one for testing the data and one for testing the model output (checking if the number of labels is correct). In particular for our test, we used pytest and the covarage libraries. We test on multiple operation systems that is: ubuntu-latest, macOS-latest and windows-latest to ensure the operation system does not influence the overall performance of our model. On top of that we are testing 2 different python versions: python 3.8 and 3.9 to give some freedom to the end user. We used caching to speed up workflows by reusing the dependencies. We also had to add the dvc setup and dvc pull steps in our .yml file in order to get the data for the unittesting as is not included in the repository. Given the small size of our project, we decided to not perform linting, however, the setup for the github workflow would be the same, only changing the .yaml file to include it. 
+Both, one of our latest workflows and the caching, can be seen in the figures below and an example of triggered workflow can be also seen here: <https://github.com/lucialarraona/dtu_mlops23_project/actions/runs/3952086681/jobs/6766742324>
 
 ![githubimg1](figures/githubactions.PNG)
 ![githubimg2](figures/githubcache.PNG)
+
 
 
 ## Running code and tracking experiments
@@ -327,7 +327,7 @@ We made use of config files. When an experiment runs, the hyperparameters that h
 >
 > Answer:
 
-As seen in the first picture, and given our project aimed for a multiclass classification, we have tracked accuracy, precision, f1, and recall for evaluation and loss and learning rate for training. Wandb also includes some system metrics, which are useful to also explore the hardware performance during the experiment. 
+As seen in the first picture, and given our project aimed for a multiclass classification, we have tracked accuracy, precision, f1, and recall for evaluation and loss and learning rate for training in order to find the optimal hyperparameters aiming for high accuracy. Wandb also includes some system metrics, which are useful to also explore the hardware performance during the experiment (GPu power usage, memory allocation and temperature). In our case, since we are using a virtual machine for training and furhter deployement, it should be taken into consideration for the cost of the resources. 
 All of our runs in this case are grouped under the name 'bert' given the possibility to add different experiments with other transformers and then, as seen in figure 2, we can track groups of experiments in parallel with the same metrics.
 We considered the possibility of adding sweeps, however, we found a good combination of hyperparameters after only 10 experiments and we discarded it for this project. The procedure would have been the following: create a config file but  with a dictionary of values for each hyperparamenter to try, and then start the agent so that it created random combinations of them for each run.
 ![Figure1](figures/wandb1.png)
@@ -346,7 +346,7 @@ We considered the possibility of adding sweeps, however, we found a good combina
 >
 > Answer:
 
-For our project we decided to create one docker image for training. The image buildin is automated with Cloud build so that everytime we push code to the main branch of the project repository it builds a new image with a :latest tag. To run our image the user would first need a machine with GPU, then would need to pull the image doing `sudo docker pull gcr.io/wired-standard-374308/finalproject:latest` and finally, run the image by using `sudo docker run gcr.io/wired-standard-374308/finalproject:latest`. The link to the docker file is <https://github.com/lucialarraona/dtu_mlops23_project/blob/main/Dockerfile>
+For our project we decided to create one docker image for training given different complications. The image building is automated with Cloud build so that everytime we push code to the main branch of the project repository it builds a new image with a `:latest` tag. Given the docker file is meant to be a containerized application, to run our image the user would first need a machine with GPU, then would need to pull the image doing `sudo docker pull gcr.io/wired-standard-374308/finalproject:latest` and finally, run the image by using `sudo docker run gcr.io/wired-standard-374308/finalproject:latest`. Since it  The link to the docker file is <https://github.com/lucialarraona/dtu_mlops23_project/blob/main/Dockerfile>
 
 ### Question 16
 
@@ -394,7 +394,7 @@ We used the following services: Engine, Bucket, Cloud Build, Container registry 
 >
 > Answer:
 
-For our project we created an instance with an attached GPU to be able to run our model training (the BERT transformer is a very large model). The hardware used in said VM-instance is and NVIDIA-T4 GPU and 200 GB of disk memory. For our model run we tried two different approaches: directly copying the repository and running the script, and by pulling an image from our Container Registry. 
+For our project we created an instance with an attached GPU, since none of us had a computer with the necessary specifications to be able to run our model training (the BERT transformer is a very large model). The hardware used in said Virtual Machine instance is and NVIDIA-T4 GPU and 200 GB of disk memory and it is located in central europe in order to reduce costs and latency. For our model to run we have tried two different approaches: directly copying the repository and running the scripts, and then pulling the docker image stored in our Container Registry. 
 
 ### Question 19
 
@@ -507,8 +507,11 @@ Finally, we developed a FastAPI application that later on was built into a cloud
 > *The biggest challenges in the project was using ... tool to do ... . The reason for this was ...*
 >
 > Answer:
-The biggest challenge in our project was building and managing the docker images. The image itself is aroun 8GB and it took a very long time to build (around 10-15 minutes) even with a high-speed CPU. Even when verified that the steps to pull the data (dvc pull) while building the image were correct (approved by the teacher) it still couldn't pull the data and therefore the image can't run properly.
-Apart from that, the rest of the steps where able to be performed smoothly. Tracking with wandb, unittesting, linting, and deployement in both FastAPI and using cloud functions was very exciting to setup and see it worked. 
+The biggest challenge in our project was building and managing the docker images. The image itself is around 8GB and it took a very long time to build (around 30 minutes) even with a high-speed CPU. Even when verified that the steps to build the docker file where correct (approved by the teacher) and that the image was built with no errors, we could not manage to successfully run the image on the virtual machine as we encountered path related problems: `FileNotFoundError: [Errno 2] No such file or directory: 'data/processed/train.pth'` even though the data folder existed, and which also did not happen while running without the docker image directly on the virtual machine. 
+
+Regarding Vertex AI, we could not use it as it required to upgrade the google cloud account and ask for a quota increase that never came on time. We could only run the model on compute engine. We would have liked to use Vertex AI and are a bit bummed. 
+
+Apart from that, the rest of the steps where able to be performed smoothly. Tracking with wandb, unittesting, and deployement in both FastAPI and using cloud functions was very exciting to setup and to see that it worked as expected. 
 
 ### Question 27
 
@@ -525,6 +528,6 @@ Apart from that, the rest of the steps where able to be performed smoothly. Trac
 >
 > Answer:
 - Student s220492 was in charge of setting up initial cookie cutter structure, creating the model (train and predict script), hydra setup, wandb logging and docker files.
-- Student s220351 was in charge of creating make_dataset.py, model deployement and monitoring
-- Student s22... was in charge of setting up DVC, unittesting, linting...
+- Student s220351 was in charge of creating make_dataset.py, model deployement and monitoring connection.
+- Student s220243 was in charge of setting up DVC, and Continuous integration: github actions, unittesting, linting, checking pep8 regulations.
 All members contributed to different parts of the code while debugging. 
