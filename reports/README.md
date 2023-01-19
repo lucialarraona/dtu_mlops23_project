@@ -129,7 +129,7 @@ s220492, s220351, s220243
 >
 > Answer:
 
---- question 3 fill here ---
+ We used the Transformers framework in Pytorch in our project. We used pretrained Bert tokenizer and Bert model for classification, which we fine-tuned for the project task. For training the model we used the *trainer* function from HuggingFace, dedicated for transformes.
 
 ## Coding environment
 
@@ -148,7 +148,11 @@ s220492, s220351, s220243
 >
 > Answer:
 
-We used the *pyreq* package, which creates the requirements.txt file, with list of project dependencies. We were also developing our code in a separate conda environment, we coudl get the list of dependencies by using *pip freeze* command. Copy of our development environment is created when running *pip install requirements.txt* command. It's recommended to first create new python environment (e.g. with conda create --name my_env), and install dependencies afterwards.
+To automatically create and maintain the requirements.txt file, which contains information about all of the project dependencies, we used the *pipreqs* package. The file created this way contains only packages used in the current project, not all of the packages installed in the environment.  We were also developing our code in a separate conda environment, therefore we could get the list of dependencies by using `pip freeze` command. The file with requirements has to be updated after every created change, to ensure that it contains up-to-date dependencies. 
+
+ Our development environment is copied when running `pip install requirements.txt` command. It's recommended to first create new python environment (e.g. with conda create --name my_env), and install dependencies afterwards.
+
+
 
 ### Question 5
 
@@ -174,7 +178,9 @@ The overall structure of our project can be seen at the bottom of our readme fil
 >
 > Answer:
 
-DID WE? SHOULD WE? In large project code is usually developed by many different people, rules for code quality and format are helping to keep it coherent, in order to make it more clear and easy to understand.
+DID WE? SHOULD WE? In our scripts, we used informative comments, to make our code clear and easier to understand. 
+
+In large project code is usually developed by many different people, rules for code quality and format are helping to keep it coherent, in order to make it more clear and easy to understand.
 
 ## Version control
 
@@ -425,7 +431,7 @@ For our project we created an instance with an attached GPU to be able to run ou
 >
 > Answer:
 
-For deployment we wrapped our model into application, which returns predicted label of the sentence given by a user, we created it using FastAPI. We first deployed the app locally with uvicorn framework, which worked correctly. Afterwards we decided to deploy it in the cloud, using Cloud Functions in order to make it acessible for everyone using the curl command with the desired text to classify. To invoke the service an user would call*
+For deployment we wrapped our model into application, which returns predicted label of the sentence given by a user, we created it using FastAPI. We first deployed the app locally with uvicorn framework, which worked correctly. Afterwards we decided to deploy it in the cloud, using Cloud Functions in order to make it acessible for everyone using the curl command with the desired text to classify. To invoke the service an user would call
 `curl -m 310 -X POST https://europe-west1-mlops-374314.cloudfunctions.net/mlops-project -H "Content-Type: application/json" -d '{"text": "user text to test"}'`
 
 Additionally, since we have been using the HuggingFace library for the whole project, They also include and Inference API when we upload the model to their hub / sharing space. It is also public to everyone to download our model and try it our live.
@@ -443,6 +449,10 @@ Additionally, since we have been using the HuggingFace library for the whole pro
 > Answer:
 We implemented monitoring, or at least we setup the application. However, we would have liked to have time to design a dashboard such that over time we could measure the performance when invoking the cloud function for inference.
 
+We deployed our model using cloud functions in google cloud, which comes with a basic monitoring dashboard. Which includes information such as invocations/second, execution time, and memory utilisation. 
+
+This data provides insight into the performance and reliability of the application. 
+
 ### Question 24
 
 > **How many credits did you end up using during the project and what service was most expensive?**
@@ -454,7 +464,7 @@ We implemented monitoring, or at least we setup the application. However, we wou
 > *costing the most was ... due to ...*
 >
 > Answer:
-We used around 100$ in credits summing up the costs for the different members. Virtual Machine instances with attached GPUs turned out to be the most expensive resource while for example, remote storage in the buckets was very cheap. 
+We used around 100$ in credits summing up the costs for the different members. Virtual Machine instances with attached GPUs turned out to be the most expensive resource while for example, remote storage in the buckets or running a cloud function was very cheap. 
 
 ## Overall discussion of project
 
@@ -511,6 +521,6 @@ Apart from that, the rest of the steps where able to be performed smoothly. Trac
 >
 > Answer:
 - Student s220492 was in charge of setting up initial cookie cutter structure, creating the model (train and predict script), hydra setup, wandb logging and docker files.
-- Student s220... was in charge of creating make_dataset.py, model deployement and monitoring
+- Student s220351 was in charge of creating make_dataset.py, model deployement and monitoring
 - Student s22... was in charge of setting up DVC, unittesting, linting...
 All members contributed to different parts of the code while debugging. 
