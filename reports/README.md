@@ -453,9 +453,9 @@ Additionally, since we have been using the HuggingFace library for the whole pro
 > Answer:
 We implemented monitoring, or at least we setup the application. However, we would have liked to have time to design a dashboard such that over time we could measure the performance when invoking the cloud function for inference.
 
-We deployed our model using cloud functions in google cloud, which comes with a basic monitoring dashboard. Which includes information such as invocations/second, execution time, and memory utilisation. 
+We deployed our model using cloud functions in google cloud, which comes with a basic monitoring dashboard, which includes information such as invocations/second, execution time, and memory utilisation. 
 
-This data provides insight into the performance and reliability of the application. 
+This data provides insight into the real-world performance and reliability of the application, it allows to ensure that the application is fast and smooth for end users and keeps track of overall usage, which impacts the running costs. Monitoring tools usually provide alert systems, which inform about any disruptions in the application behavior. Alerting systems can be very useful and help to quickly respond to critical issues without the necessity of constantly monitoring the dashboards. 
 
 ### Question 24
 
