@@ -129,7 +129,7 @@ s220492, s220351, s220243
 >
 > Answer:
 
---- question 3 fill here ---
+ We used the Transformers framework in Pytorch in our project. We used pretrained Bert tokenizer and Bert model for classification, which we fine-tuned for the project task. For training the model we used the *trainer* function from HuggingFace, dedicated for transformes.
 
 ## Coding environment
 
@@ -148,7 +148,11 @@ s220492, s220351, s220243
 >
 > Answer:
 
-We used the *pyreq* package, which creates the requirements.txt file, with list of project dependencies. We were also developing our code in a separate conda environment, we coudl get the list of dependencies by using *pip freeze* command. Copy of our development environment is created when running *pip install requirements.txt* command. It's recommended to first create new python environment (e.g. with conda create --name my_env), and install dependencies afterwards.
+To automatically create and maintain the requirements.txt file, which contains information about all of the project dependencies, we used the *pipreqs* package. The file created this way contains only packages used in the current project, not all of the packages installed in the environment.  We were also developing our code in a separate conda environment, therefore we could get the list of dependencies by using `pip freeze` command. The file with requirements has to be updated after every created change, to ensure that it contains up-to-date dependencies. 
+
+ Our development environment is copied when running `pip install requirements.txt` command. It's recommended to first create new python environment (e.g. with conda create --name my_env), and install dependencies afterwards.
+
+
 
 ### Question 5
 
@@ -174,7 +178,9 @@ The overall structure of our project can be seen at the bottom of our readme fil
 >
 > Answer:
 
-DID WE? SHOULD WE? In large project code is usually developed by many different people, rules for code quality and format are helping to keep it coherent, in order to make it more clear and easy to understand.
+DID WE? SHOULD WE? In our scripts, we used informative comments, to make our code clear and easier to understand. 
+
+In large project code is usually developed by many different people, rules for code quality and format are helping to keep it coherent, in order to make it more clear and easy to understand.
 
 ## Version control
 
@@ -193,7 +199,7 @@ DID WE? SHOULD WE? In large project code is usually developed by many different 
 >
 > Answer:
 
---- question 7 fill here ---
+In total we have implemented 5 tests. 3 test covers the data side of our project and 2 are related to the model. This two parts of our application are the most critical ones so we decided to focus on them. In test_data script we are checking the number of samples in each dataset (train,validation and test), while test_model checks if the output of the model has a correct size and if device (cpu or cuda) was read properly.
 
 ### Question 8
 
@@ -208,7 +214,7 @@ DID WE? SHOULD WE? In large project code is usually developed by many different 
 >
 > Answer:
 
---- question 8 fill here ---
+The total code coverage of our code is 86% with 100% coverage on the scripts that are in tests/ directory. But even with coverage that high we would not trust that our code is 100% error free. Our test covers only the data and models unitesting. One can arque that our test are very simple and they may not cache errors. Nevertheless in this section we just wanted to show how the unitesting works and that we know how to use the Github actions. We simply did not have enought time to write sophisticated tess however, adding them to the existing ones is manageable.
 
 ### Question 9
 
@@ -255,7 +261,11 @@ To keep track of the data versions (in this project only minor fixes, but on the
 >
 > Answer:
 
---- question 11 fill here ---
+For the Continous integration we are running unittesting. We have orginized our CI into 2 separate files: one for testing the data and one for testing the model. In particular for our test, we used pytest and the covarage libraries. We test on multiple operation systems that is: ubuntu-latest, macOS-latest and windows-latest. On top of that we are testing 2 different python versions: python 3.8 and 3.9. We used caching to speed up workflows by reusing the dependencies. We also had to add the dvc setup and dvc pull steps in our .yml file in order to get the data for the unittesting. Both one of our latest workflows and the caching can be seen in the figures below and an example of triggered workflow can be also seen here: <https://github.com/lucialarraona/dtu_mlops23_project/actions/runs/3952086681/jobs/6766742324>
+
+![githubimg1](figures/githubactions.PNG)
+![githubimg2](figures/githubcache.PNG)
+
 
 ## Running code and tracking experiments
 
@@ -425,7 +435,7 @@ For our project we created an instance with an attached GPU to be able to run ou
 >
 > Answer:
 
-For deployment we wrapped our model into application, which returns predicted label of the sentence given by a user, we created it using FastAPI. We first deployed the app locally with uvicorn framework, which worked correctly. Afterwards we decided to deploy it in the cloud, using Cloud Functions in order to make it acessible for everyone using the curl command with the desired text to classify. To invoke the service an user would call*
+For deployment we wrapped our model into application, which returns predicted label of the sentence given by a user, we created it using FastAPI. We first deployed the app locally with uvicorn framework, which worked correctly. Afterwards we decided to deploy it in the cloud, using Cloud Functions in order to make it acessible for everyone using the curl command with the desired text to classify. To invoke the service an user would call
 `curl -m 310 -X POST https://europe-west1-mlops-374314.cloudfunctions.net/mlops-project -H "Content-Type: application/json" -d '{"text": "user text to test"}'`
 
 Additionally, since we have been using the HuggingFace library for the whole project, They also include and Inference API when we upload the model to their hub / sharing space. It is also public to everyone to download our model and try it our live.
@@ -443,6 +453,10 @@ Additionally, since we have been using the HuggingFace library for the whole pro
 > Answer:
 We implemented monitoring, or at least we setup the application. However, we would have liked to have time to design a dashboard such that over time we could measure the performance when invoking the cloud function for inference.
 
+We deployed our model using cloud functions in google cloud, which comes with a basic monitoring dashboard, which includes information such as invocations/second, execution time, and memory utilisation. 
+
+This data provides insight into the real-world performance and reliability of the application, it allows to ensure that the application is fast and smooth for end users and keeps track of overall usage, which impacts the running costs. Monitoring tools usually provide alert systems, which inform about any disruptions in the application behavior. Alerting systems can be very useful and help to quickly respond to critical issues without the necessity of constantly monitoring the dashboards. 
+
 ### Question 24
 
 > **How many credits did you end up using during the project and what service was most expensive?**
@@ -450,11 +464,11 @@ We implemented monitoring, or at least we setup the application. However, we wou
 > Answer length: 25-100 words.
 >
 > Example:
-> *Group member 1 used ..., Group member 2 used 5$, in total ... credits was spend during development. The service*
+> *Group member 1 used ..., Group member 2 used ..., in total ... credits was spend during development. The service*
 > *costing the most was ... due to ...*
 >
 > Answer:
-We used around 100$ in credits summing up the costs for the different members. Virtual Machine instances with attached GPUs turned out to be the most expensive resource while for example, remote storage in the buckets was very cheap. 
+We used around 100$ in credits summing up the costs for the different members. Virtual Machine instances with attached GPUs turned out to be the most expensive resource while for example, remote storage in the buckets or running a cloud function was very cheap. 
 
 ## Overall discussion of project
 
@@ -475,7 +489,7 @@ We used around 100$ in credits summing up the costs for the different members. V
 >
 > Answer:
 
-![Overview Diagram](reports/figures/overview_mlops.png)
+![Overview Diagram](figures/overview_mlops.png)
 The starting point of the diagram is the local setup, where based on the cookie cutter template we build our final project structure. In order to build our application for sentiment detection on text, we first created a specific conda environment which had all the requirements for this project installed (isolating and resolving future dependencies conflicts). Secondly, we used the the Transformers framework provided by Huggingface, as well as their functions for training and evaluation which are built using pytorch and pytorch lightning (this way we ensured to minimise boilerplate). For experiment tracking and logging, we made used of both Hydra (for the config files) and Weights and Biases for logging and tracking. To ensure correct data version control and introducing the cloud, we made use of DVC and GCP cloud storage to remotely store and keep track of our data files without loosing any of the previous versioning. 
 The source code for the project is hosted in a github repository, which helped us with version control, as well as well with automation of testing and linting. 
 Using the github repository also helped to automatically trigger the cloud build, so that everytime we pushed code to the main branch of the project it will generate an image of the project, conteinarizing the application automatically, and storing that image in the container registry. 
@@ -511,6 +525,6 @@ Apart from that, the rest of the steps where able to be performed smoothly. Trac
 >
 > Answer:
 - Student s220492 was in charge of setting up initial cookie cutter structure, creating the model (train and predict script), hydra setup, wandb logging and docker files.
-- Student s220... was in charge of creating make_dataset.py, model deployement and monitoring
+- Student s220351 was in charge of creating make_dataset.py, model deployement and monitoring
 - Student s22... was in charge of setting up DVC, unittesting, linting...
 All members contributed to different parts of the code while debugging. 
