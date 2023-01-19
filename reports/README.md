@@ -450,7 +450,7 @@ Additionally, since we have been using the HuggingFace library for the whole pro
 > *We did not manage to implement monitoring. We would like to have monitoring implemented such that over time we could*
 > *measure ... and ... that would inform us about this ... behaviour of our application.*
 >
-> Answer:
+Answer:
 We implemented monitoring, or at least we setup the application. However, we would have liked to have time to design a dashboard such that over time we could measure the performance when invoking the cloud function for inference.
 
 We deployed our model using cloud functions in google cloud, which comes with a basic monitoring dashboard, which includes information such as invocations/second, execution time, and memory utilisation. 
@@ -467,7 +467,7 @@ This data provides insight into the real-world performance and reliability of th
 > *Group member 1 used ..., Group member 2 used ..., in total ... credits was spend during development. The service*
 > *costing the most was ... due to ...*
 >
-> Answer:
+Answer:
 We used around 100$ in credits summing up the costs for the different members. Virtual Machine instances with attached GPUs turned out to be the most expensive resource while for example, remote storage in the buckets or running a cloud function was very cheap. 
 
 ## Overall discussion of project
@@ -487,8 +487,8 @@ We used around 100$ in credits summing up the costs for the different members. V
 > *The starting point of the diagram is our local setup, where we integrated ... and ... and ... into our code.*
 > *Whenever we commit code and puch to github, it auto triggers ... and ... . From there the diagram shows ...*
 >
-> Answer:
-
+Answer:
+      
 ![Overview Diagram](figures/overview_mlops.png)
 The starting point of the diagram is the local setup, where based on the cookie cutter template we build our final project structure. In order to build our application for sentiment detection on text, we first created a specific conda environment which had all the requirements for this project installed (isolating and resolving future dependencies conflicts). Secondly, we used the the Transformers framework provided by Huggingface, as well as their functions for training and evaluation which are built using pytorch and pytorch lightning (this way we ensured to minimise boilerplate). For experiment tracking and logging, we made used of both Hydra (for the config files) and Weights and Biases for logging and tracking. To ensure correct data version control and introducing the cloud, we made use of DVC and GCP cloud storage to remotely store and keep track of our data files without loosing any of the previous versioning. 
 The source code for the project is hosted in a github repository, which helped us with version control, as well as well with automation of testing and linting. 
@@ -506,7 +506,8 @@ Finally, we developed a FastAPI application that later on was built into a cloud
 > Example:
 > *The biggest challenges in the project was using ... tool to do ... . The reason for this was ...*
 >
-> Answer:
+
+Answer:
 The biggest challenge in our project was building and managing the docker images. The image itself is around 8GB and it took a very long time to build (around 30 minutes) even with a high-speed CPU. Even when verified that the steps to build the docker file where correct (approved by the teacher) and that the image was built with no errors, we could not manage to successfully run the image on the virtual machine as we encountered path related problems: `FileNotFoundError: [Errno 2] No such file or directory: 'data/processed/train.pth'` even though the data folder existed, and which also did not happen while running without the docker image directly on the virtual machine. 
 
 Regarding Vertex AI, we could not use it as it required to upgrade the google cloud account and ask for a quota increase that never came on time. We could only run the model on compute engine. We would have liked to use Vertex AI and are a bit bummed. 
@@ -527,7 +528,7 @@ Apart from that, the rest of the steps where able to be performed smoothly. Trac
 > *All members contributed to code by...*
 >
 > Answer:
-- Student s220492 was in charge of setting up initial cookie cutter structure, creating the model (train and predict script), hydra setup, wandb logging and docker files.
+- Student s220492 was in charge of setting up initial cookie cutter structure, creating the model (train and predict script), hydra setup, wandb logging docker files and setting up resources from gcloud.
 - Student s220351 was in charge of creating make_dataset.py, model deployement and monitoring connection.
 - Student s220243 was in charge of setting up DVC, and Continuous integration: github actions, unittesting, linting, checking pep8 regulations.
 All members contributed to different parts of the code while debugging. 
