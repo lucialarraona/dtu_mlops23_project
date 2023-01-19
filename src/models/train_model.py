@@ -66,7 +66,7 @@ def main(config: DictConfig):
     wandb.init(mode="disabled")
             
     
-    project_root = Path(__file__).parent.parent
+    project_root = Path(__file__).parent.parent.parent
     print(project_root)
     train_dataset = torch.load(str(project_root.joinpath('data', 'processed', 'train.pth')))
     valid_dataset = torch.load(str(project_root.joinpath('data', 'processed', 'valid.pth')))
