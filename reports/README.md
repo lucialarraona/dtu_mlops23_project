@@ -419,7 +419,7 @@ For our project we created an instance with an attached GPU, since none of us ha
 >
 > Answer:
 
-![Our GCP Cloud Build History](figures/cloudbuild_gcp.png)
+![Our GCP Cloud Build History](figures/cloudbuild_gcp1.png)
 
 ### Question 22
 
